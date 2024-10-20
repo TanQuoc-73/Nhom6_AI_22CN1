@@ -1,0 +1,73 @@
+/* Mặc định ẩn modal */
+.modal {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+/* Định dạng cho danh mục sản phẩm */
+.danhmuc {
+    width: 18rem;
+    position: absolute;
+    z-index: 1000;
+    background-color: none  ;
+    cursor: pointer;
+    margin-top: -3rem;
+    margin-left: 1rem;
+    height: 3rem;
+
+
+}
+
+.danhmuc h3 {
+    margin: 0;
+}
+
+/* Định dạng cho nội dung của modal */
+.modal{
+    background-color: rgb(255, 214, 201);
+    margin-top: 100px;
+    width: 15rem;
+    height: 22rem;
+    margin-left: 1.28rem;
+    border-radius: 0 0 10px 10px;
+    
+}
+
+.modal ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.modal li {
+    a{
+        text-decoration: none;
+        color: rgb(128, 94, 85);
+    }
+    i{
+        color: rgb(128, 94, 85);
+    }
+    padding: 10px 0;
+    font-size: 16px;
+}
+
+.modal li:hover {
+    background-color: #fdbea2;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+
+/* Hiển thị modal khi có class "show" */
+.modal.show {
+    display: block;
+}
