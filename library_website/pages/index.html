@@ -49,15 +49,22 @@
 
 
 
-        <div id="search">
+        <div class="search" id="searchDiv">
                 <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
-                <i class="fa-solid fa-magnifying-glass"></i>
+                 <button id="searchButton">Tìm kiếm</button>
         
        
             
         
         </div>
-        <script src="/library_website/js/search.js"></script>
+        <div class="modal_search" id="searchModal">
+    <div class="modal_content">
+        <div id="searchResults"></div>
+    </div>
+</div>
+        
+
+
         
         <div id="rightop">
             <i class="fa-solid fa-cart-shopping"></i>
@@ -106,63 +113,33 @@
             
     
     
-    <div class="content">
-        <div class="new">
-            <img src="/library_website/assets/imgs/011f185fac9ca611013ee04daa8e95.jpg" alt="main_img">
-           
-        </div>
-        <div class="title_box" id="">
-            <p>
-                <i class="fa-solid fa-arrow-up"></i>
-                Sách mới cập nhật
-            </p>
-        </div>
+   <div class="content">
+    <div class="new">
+        <img src="/library_website/assets/imgs/011f185fac9ca611013ee04daa8e95.jpg" alt="main_img">
+    </div>
+    <div class="title_box" id="">
+        <p>
+            <i class="fa-solid fa-arrow-up"></i>
+            Sách mới cập nhật
+        </p>
+    </div>
 
+    <div class="new_book" id="newBookList"></div> <!-- Changed class to id for easier selection -->
 
-
-
-        
-        <div class="content">
-
-        <div class="modal" id="bookDetailModal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <img id="modalBookCover" src="" alt="Bìa sách" style="width: 150px; height: 200px;">
-        <h2 id="modalBookName"></h2>
-        <p><strong>Tác giả:</strong> <span id="modalAuthorName"></span></p>
-        <p><strong>Mã sách:</strong> <span id="modalBookId"></span></p>
-        <p><strong>Mô tả:</strong> <span id="modalDescription"></span></p>
+    <div class="modal" id="bookModal">
+    <div class="modal_content">
+        <div id="modalBookDetails"></div>
+    </div>
+</div>
+    <div class="title_box">
+        <p>
+            <i class="fa-regular fa-star"></i>
+            Sách nổi bật
+        </p>
     </div>
 </div>
     
-    <div id="bookDisplay"></div>
-</div>
-
-<!-- Modal hiển thị chi tiết sách -->
-<div id="bookModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div id="modalDetails"></div>
-    </div>
-</div>
-<script src="/library_website/js/list_book.js"></script>
-
-
-
-
-
-
-
-
-        <div class="title_box">
-            <p>
-                <i class="fa-regular fa-star"></i>
-                Sách nổi bật
-            </p>
-        </div>
-        
-        
-    </div>  
+  
    
    
     <div class="footer">
@@ -175,5 +152,5 @@
         <div id="footer4"></div>
     </div> 
 </body>
-
+<script src="/library_website/js/list_book.js"></script>
 </html>

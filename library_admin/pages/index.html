@@ -4,6 +4,7 @@
     <title>Thu Vien</title>
     <link rel="stylesheet" href="/library_admin/css/main.css">
     <link rel="stylesheet" href="/library_website/css/base.css">
+    <link rel="stylesheet" href="/library_admin/css/add.css">
     <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="">
@@ -81,143 +82,42 @@
 
     <div class="content">
         <h2>Thêm sách mới</h2>
-    <form id="bookForm">
-        <label for="bookName">Tên sách:</label>
-        <input type="text" id="bookName" placeholder="Nhập tên sách" required>
+        <form id="bookForm">
+    <input type="text" id="bookName" placeholder="Tên sách" required>
+    <input type="text" id="authorName" placeholder="Tên tác giả" required>
+    <input type="text" id="bookCode" placeholder="Mã sách" required>
+    <input type="number" id="bookQuantity" placeholder="Số lượng" required>
+    <textarea id="bookDescription" placeholder="Mô tả" required></textarea>
+    <input type="file" id="bookCover" accept="image/*" required>
+    <button type="submit">Thêm sách</button>
+</form>
 
-        <label for="authorName">Tên tác giả:</label>
-        <input type="text" id="authorName" placeholder="Nhập tên tác giả" required>
+<input type="text" id="searchInput" placeholder="Tìm kiếm...">
+<button id="searchBtn">Tìm</button>
 
-        <label for="bookId">Mã sách:</label>
-        <input type="text" id="bookId" placeholder="Nhập mã sách" required>
+<table id="bookList">
+    <thead>
+        <tr>
+            <th>Bìa sách</th>
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Mã sách</th>
+            <th>Số lượng</th>
+            <th>Mô tả</th>
+            <th>Ngày thêm</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Danh sách sách sẽ được thêm vào đây -->
+    </tbody>
+</table>
+    
+    </div>
 
-        <label for="description">Mô tả:</label>
-        <textarea id="description" placeholder="Nhập mô tả"></textarea>
 
-        <label for="bookCover">Ảnh bìa:</label>
-        <input type="file" id="bookCover" accept="image/*" required>
-
-        <button type="submit">Thêm sách</button>
-    </form>
-
-    <h3>Danh sách sách</h3>
-    <div id="bookList"></div>
-</div>
-
-<script>
-    // Hàm chuyển file ảnh sang base64
-    function convertToBase64(file, callback) {
-        const reader = new FileReader();
-        reader.onloadend = function() {
-            callback(reader.result);
-        };
-        reader.readAsDataURL(file);
-    }
-
-    // Hàm lấy dữ liệu từ localStorage
-    function getBooks() {
-        let books = localStorage.getItem('books');
-        return books ? JSON.parse(books) : [];
-    }
-
-    // Hàm lưu dữ liệu vào localStorage
-    function saveBooks(books) {
-        localStorage.setItem('books', JSON.stringify(books));
-    }
-
-    // Hiển thị danh sách sách
-    function displayBooks() {
-        const bookList = document.getElementById('bookList');
-        bookList.innerHTML = ''; // Xóa danh sách cũ
-
-        const books = getBooks();
-        books.forEach((book, index) => {
-            const bookItem = document.createElement('div');
-            bookItem.innerHTML = `
-                <img src="${book.cover}" alt="Bìa sách" style="width: 100px; height: 150px;">
-                <p><strong>Tên sách:</strong> ${book.name}</p>
-                <p><strong>Tác giả:</strong> ${book.author}</p>
-                <p><strong>Mã sách:</strong> ${book.id}</p>
-                <p><strong>Mô tả:</strong> ${book.description}</p>
-                <button onclick="editBook(${index})">Sửa</button>
-                <button onclick="deleteBook(${index})">Xóa</button> <!-- Nút Xóa -->
-            `;
-            bookList.appendChild(bookItem);
-        });
-    }
-
-    // Thêm sách mới
-    document.getElementById('bookForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const bookName = document.getElementById('bookName').value;
-        const authorName = document.getElementById('authorName').value;
-        const bookId = document.getElementById('bookId').value;
-        const description = document.getElementById('description').value;
-        const bookCoverFile = document.getElementById('bookCover').files[0];
-
-        if (bookCoverFile) {
-            convertToBase64(bookCoverFile, function(base64Image) {
-                const books = getBooks();
-                books.push({ 
-                    name: bookName, 
-                    author: authorName, 
-                    id: bookId, 
-                    description: description, 
-                    cover: base64Image 
-                });
-                saveBooks(books);
-                displayBooks(); // Cập nhật lại danh sách sau khi thêm
-            });
-        }
-
-        this.reset(); // Xóa dữ liệu trong form
-    });
-
-    // Chỉnh sửa sách
-    function editBook(index) {
-        const books = getBooks();
-        const book = books[index];
-
-        document.getElementById('bookName').value = book.name;
-        document.getElementById('authorName').value = book.author;
-        document.getElementById('bookId').value = book.id;
-        document.getElementById('description').value = book.description;
-
-        document.getElementById('bookForm').onsubmit = function(event) {
-            event.preventDefault();
-
-            // Cập nhật sách
-            books[index] = {
-                name: document.getElementById('bookName').value,
-                author: document.getElementById('authorName').value,
-                id: document.getElementById('bookId').value,
-                description: document.getElementById('description').value,
-                cover: book.cover // Giữ lại ảnh cũ
-            };
-
-            saveBooks(books);
-            displayBooks();
-
-            // Đặt lại hành vi form sau khi sửa
-            document.getElementById('bookForm').onsubmit = addBook;
-            this.reset(); // Xóa dữ liệu trong form
-        };
-    }
-
-    // Xóa sách
-    function deleteBook(index) {
-        const books = getBooks();
-        books.splice(index, 1); // Xóa sách theo chỉ mục
-        saveBooks(books);
-        displayBooks(); // Cập nhật lại danh sách sau khi xóa
-    }
-
-    // Khởi tạo hiển thị danh sách sách
-    displayBooks();
-</script>
         
-    </div>  
+
    
 
 
@@ -238,5 +138,5 @@
         <div id="footer4"></div>
     </div> 
 </body>
-
+<script src="../js/add.js"></script>
 </html>

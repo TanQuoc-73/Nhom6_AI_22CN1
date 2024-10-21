@@ -64,7 +64,7 @@ body{
     align-items: center;
     color: rgb(134, 104, 104);
 }
-#search{
+.search{
     margin-left: -50px;
     display: flex;
     input{
