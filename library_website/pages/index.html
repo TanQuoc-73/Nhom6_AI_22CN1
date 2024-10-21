@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/library_website/css/main.css">
     <link rel="stylesheet" href="/library_website/css/base.css">
     <link rel="stylesheet" href="/library_website/css/modal.css">
+    <link rel="stylesheet" href="/library_website/css/search.css">
     <link rel="stylesheet" href="/library_website/css/modal_inforbook.css">
     <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="stylesheet" href="">
@@ -52,18 +53,12 @@
                 <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
                 <i class="fa-solid fa-magnifying-glass"></i>
         
-        <!-- Modal hiển thị kết quả tìm kiếm -->
-<div class="modal_search" id="modalSearch" style="display: none;">
-    <div class="modal-content">
-        <span class="close" id="closeSearchModal">&times;</span>
-        <h2>Kết quả tìm kiếm</h2>
-        <div id="searchResults"></div>
-    </div>
-</div>
+       
+            
         
-
-        <script src="/library_website/js/search_list.js"></script>
         </div>
+        <script src="/library_website/js/search.js"></script>
+        
         <div id="rightop">
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
@@ -139,7 +134,7 @@
         <p><strong>Mô tả:</strong> <span id="modalDescription"></span></p>
     </div>
 </div>
-    <h2>Danh sách sách</h2>
+    
     <div id="bookDisplay"></div>
 </div>
 
