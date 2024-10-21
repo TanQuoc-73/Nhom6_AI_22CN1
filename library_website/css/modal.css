@@ -1,5 +1,5 @@
 /* Mặc định ẩn modal */
-.modal {
+.modal1 {
     display: none;
     position: absolute;
     top: 60px;
@@ -30,7 +30,7 @@
 }
 
 /* Định dạng cho nội dung của modal */
-.modal{
+.modal1{
     background-color: rgb(255, 214, 201);
     margin-top: 100px;
     width: 15rem;
@@ -40,13 +40,13 @@
     
 }
 
-.modal ul {
+.modal1 ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 }
 
-.modal li {
+.modal1 li {
     a{
         text-decoration: none;
         color: rgb(128, 94, 85);
@@ -58,7 +58,7 @@
     font-size: 16px;
 }
 
-.modal li:hover {
+.modal1 li:hover {
     background-color: #fdbea2;
     padding: 10px;
     border-radius: 10px;
@@ -68,6 +68,6 @@
 
 
 /* Hiển thị modal khi có class "show" */
-.modal.show {
+.modal1.show {
     display: block;
 }

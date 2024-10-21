@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Thu Vien</title>
+    <link rel="stylesheet" href="/library_admin/css/main.css">
+    <link rel="stylesheet" href="/library_website/css/base.css">
+    <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="">
+    
+</head>
+<body>
+    <div class="head-line">
+        <div id="hotline">
+            
+            <h1><i class="fa-solid fa-phone"></i>Hotline</h1>
+            <h2>0823415747</h2>
+
+        </div>
+
+        <div id="term">
+            <div class="term1">
+                <a href="#">Điều khoản</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">Liên hệ</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">QR</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="header">
+        <div id="logo">
+            <h1>
+                <i class="fa-solid fa-book"></i>
+                THUVIENHAU
+            </h1>
+            
+        </div>
+        <div id="search">
+                <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+        </div>
+        <div id="rightop">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+    </div>
+    
+    
+    
+    <div class="bar" id="option">
+        
+            <div class="catalog">
+                <h1>
+                    <i class="fa-solid fa-bars"></i>
+                    Tùy chọn quản lý
+                </h1>
+            </div>
+        
+        
+        <div class="choice">
+            <a href="index.html" class="c1">Trang chủ</a>
+            <a href="#" class="c2">Mượn trả</a>
+            <a href="#" class="c3">Tin tức</a>
+            <a href="#" class="c4">Giới thiệu</a>
+            <a href="#" class="c5">Liên hệ</a>
+        </div>
+        
+    </div>
+        <div class="danhmuc" id="danhMuc"></div>
+
+
+
+
+
+    <div class="content">
+        <h2>Thêm sách mới</h2>
+    <form id="bookForm">
+        <label for="bookName">Tên sách:</label>
+        <input type="text" id="bookName" placeholder="Nhập tên sách" required>
+
+        <label for="authorName">Tên tác giả:</label>
+        <input type="text" id="authorName" placeholder="Nhập tên tác giả" required>
+
+        <label for="bookId">Mã sách:</label>
+        <input type="text" id="bookId" placeholder="Nhập mã sách" required>
+
+        <label for="description">Mô tả:</label>
+        <textarea id="description" placeholder="Nhập mô tả"></textarea>
+
+        <label for="bookCover">Ảnh bìa:</label>
+        <input type="file" id="bookCover" accept="image/*" required>
+
+        <button type="submit">Thêm sách</button>
+    </form>
+
+    <h3>Danh sách sách</h3>
+    <div id="bookList"></div>
+</div>
+
+<script>
+    // Hàm chuyển file ảnh sang base64
+    function convertToBase64(file, callback) {
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result);
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Hàm lấy dữ liệu từ localStorage
+    function getBooks() {
+        let books = localStorage.getItem('books');
+        return books ? JSON.parse(books) : [];
+    }
+
+    // Hàm lưu dữ liệu vào localStorage
+    function saveBooks(books) {
+        localStorage.setItem('books', JSON.stringify(books));
+    }
+
+    // Hiển thị danh sách sách
+    function displayBooks() {
+        const bookList = document.getElementById('bookList');
+        bookList.innerHTML = ''; // Xóa danh sách cũ
+
+        const books = getBooks();
+        books.forEach((book, index) => {
+            const bookItem = document.createElement('div');
+            bookItem.innerHTML = `
+                <img src="${book.cover}" alt="Bìa sách" style="width: 100px; height: 150px;">
+                <p><strong>Tên sách:</strong> ${book.name}</p>
+                <p><strong>Tác giả:</strong> ${book.author}</p>
+                <p><strong>Mã sách:</strong> ${book.id}</p>
+                <p><strong>Mô tả:</strong> ${book.description}</p>
+                <button onclick="editBook(${index})">Sửa</button>
+                <button onclick="deleteBook(${index})">Xóa</button> <!-- Nút Xóa -->
+            `;
+            bookList.appendChild(bookItem);
+        });
+    }
+
+    // Thêm sách mới
+    document.getElementById('bookForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const bookName = document.getElementById('bookName').value;
+        const authorName = document.getElementById('authorName').value;
+        const bookId = document.getElementById('bookId').value;
+        const description = document.getElementById('description').value;
+        const bookCoverFile = document.getElementById('bookCover').files[0];
+
+        if (bookCoverFile) {
+            convertToBase64(bookCoverFile, function(base64Image) {
+                const books = getBooks();
+                books.push({ 
+                    name: bookName, 
+                    author: authorName, 
+                    id: bookId, 
+                    description: description, 
+                    cover: base64Image 
+                });
+                saveBooks(books);
+                displayBooks(); // Cập nhật lại danh sách sau khi thêm
+            });
+        }
+
+        this.reset(); // Xóa dữ liệu trong form
+    });
+
+    // Chỉnh sửa sách
+    function editBook(index) {
+        const books = getBooks();
+        const book = books[index];
+
+        document.getElementById('bookName').value = book.name;
+        document.getElementById('authorName').value = book.author;
+        document.getElementById('bookId').value = book.id;
+        document.getElementById('description').value = book.description;
+
+        document.getElementById('bookForm').onsubmit = function(event) {
+            event.preventDefault();
+
+            // Cập nhật sách
+            books[index] = {
+                name: document.getElementById('bookName').value,
+                author: document.getElementById('authorName').value,
+                id: document.getElementById('bookId').value,
+                description: document.getElementById('description').value,
+                cover: book.cover // Giữ lại ảnh cũ
+            };
+
+            saveBooks(books);
+            displayBooks();
+
+            // Đặt lại hành vi form sau khi sửa
+            document.getElementById('bookForm').onsubmit = addBook;
+            this.reset(); // Xóa dữ liệu trong form
+        };
+    }
+
+    // Xóa sách
+    function deleteBook(index) {
+        const books = getBooks();
+        books.splice(index, 1); // Xóa sách theo chỉ mục
+        saveBooks(books);
+        displayBooks(); // Cập nhật lại danh sách sau khi xóa
+    }
+
+    // Khởi tạo hiển thị danh sách sách
+    displayBooks();
+</script>
+        
+    </div>  
+   
+
+
+
+
+
+
+
+
+   
+    <div class="footer">
+        <div id="footer1">
+            <a href="#" class="c1">Giới thiệu</a>
+            <a href="#" class="c2">Liên hệ</a>
+        </div>
+        <div id="footer2"></div>
+        <div id="footer3"></div>
+        <div id="footer4"></div>
+    </div> 
+</body>
+
+</html>

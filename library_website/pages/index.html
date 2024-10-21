@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/library_website/css/main.css">
     <link rel="stylesheet" href="/library_website/css/base.css">
     <link rel="stylesheet" href="/library_website/css/modal.css">
-    <link rel="stylesheet" href="/library_website/css/slide.css">
+    <link rel="stylesheet" href="/library_website/css/modal_inforbook.css">
     <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
     <link rel="stylesheet" href="">
     <link rel="stylesheet" href="">
@@ -44,10 +44,25 @@
             </h1>
             
         </div>
+
+
+
+
         <div id="search">
                 <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
                 <i class="fa-solid fa-magnifying-glass"></i>
+        
+        <!-- Modal hiển thị kết quả tìm kiếm -->
+<div class="modal_search" id="modalSearch" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="closeSearchModal">&times;</span>
+        <h2>Kết quả tìm kiếm</h2>
+        <div id="searchResults"></div>
+    </div>
+</div>
+        
 
+        <script src="/library_website/js/search_list.js"></script>
         </div>
         <div id="rightop">
             <i class="fa-solid fa-cart-shopping"></i>
@@ -80,7 +95,7 @@
 
         <!-- Modal hiển thị thể loại sách -->
     <div class="modaldanhmuc">
-        <div class="modal" id="modalTheLoai">
+        <div class="modal1" id="modalTheLoai">
             <ul>
                 <li>
                     <a href="#">Thể loại</a>
@@ -107,26 +122,50 @@
                 Sách mới cập nhật
             </p>
         </div>
-        <div class="box" id="box1">
-            
-            <div class="imgs">
-                <img src="/library_website/assets/imgs/mối tình đầu của tôi.jpg" placeholder="" ></img>
-                
-            </div>
-        </div>
+
+
+
+
+        
+        <div class="content">
+
+        <div class="modal" id="bookDetailModal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <img id="modalBookCover" src="" alt="Bìa sách" style="width: 150px; height: 200px;">
+        <h2 id="modalBookName"></h2>
+        <p><strong>Tác giả:</strong> <span id="modalAuthorName"></span></p>
+        <p><strong>Mã sách:</strong> <span id="modalBookId"></span></p>
+        <p><strong>Mô tả:</strong> <span id="modalDescription"></span></p>
+    </div>
+</div>
+    <h2>Danh sách sách</h2>
+    <div id="bookDisplay"></div>
+</div>
+
+<!-- Modal hiển thị chi tiết sách -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="modalDetails"></div>
+    </div>
+</div>
+<script src="/library_website/js/list_book.js"></script>
+
+
+
+
+
+
+
+
         <div class="title_box">
             <p>
                 <i class="fa-regular fa-star"></i>
                 Sách nổi bật
             </p>
         </div>
-        <div class="box" id="box2">
-            
-            <div class="imgs">
-                <img src="/library_website/assets/imgs/mối tình đầu của tôi.jpg" placeholder="" ></img>
-                
-            </div>
-        </div>
+        
         
     </div>  
    
