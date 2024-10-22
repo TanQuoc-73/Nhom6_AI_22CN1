@@ -19,12 +19,15 @@ form input, form textarea, form button {
 
 #bookList {
     width: 100%;
+    height: 500px;
     border-collapse: collapse;
 }
 
 #bookList th, #bookList td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 10px; /* Thêm khoảng cách cho các ô */
+    text-align: left; /* Căn trái văn bản */
+    border: 1px solid #ddd; /* Đường biên cho các ô */
+
 }
 
 #bookList th {

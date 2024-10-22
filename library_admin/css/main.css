@@ -160,11 +160,81 @@ body{
 
 /**/
 .content{
-    background-color: rgb(252, 242, 238);
+    background-color: rgb(251, 220, 208);
     width: 100%;
     height: 100%;
-    display: block;
+    display: flex;
+    margin-right: 1rem;
    
+}
+#bookForm{
+    display: inline;
+    width:25rem;
+    margin-right: 3rem;
+    h2{
+        color: rgb(147, 104, 66);
+    }
+    input{
+        background-color: rgb(251, 236, 224);
+        border-radius: 10px;
+        border: 1px solid;
+
+    }
+    textarea{
+        background-color: rgb(251, 236, 224);
+        border-radius: 10px;
+        
+    }
+    #bookCover{
+        background-color: white;
+        border-radius: 10px;
+        border: 1px solid;
+    }
+    #bookSubmit{
+        background-color: rgb(251, 236, 224);
+        border-radius: 10px;
+
+    
+    }
+    button{
+        background-color: rgb(252, 205, 169);
+        font-size: 20px;
+        border: none;
+        border-radius: 10px;
+        color: :red;
+    }
+    
+}
+.search_form{
+    background-color: rgb(251, 220, 208);
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    #searchInput {
+        width: 30rem;
+        padding: 0.5rem;
+        border-radius:10px ;
+        border: none;
+        font-size: 1rem;
+        background-color: rgb(250, 246, 242);
+        
+    }
+    #searchBtn{
+        background-color: rgb(251, 239, 233);
+        font-size: 1rem;
+        margin-left: -2rem;
+        border-radius: 5pc;
+        border: none;
+        
+
+    }
+
+}
+#bookList{
+    background-color: rgb(251, 236, 224);
+    color: rgb(183, 110, 46);
+
 }
 .title_box{
     margin: 1rem 0 1rem 2.48rem;

@@ -43,11 +43,7 @@
             </h1>
             
         </div>
-        <div id="search">
-                <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
-                <i class="fa-solid fa-magnifying-glass"></i>
-
-        </div>
+        
         <div id="rightop">
             <i class="fa-solid fa-cart-shopping"></i>
         </div>
@@ -78,11 +74,14 @@
 
 
 
-
-
+<div class= "search_form">
+<input type="text" id="searchInput" placeholder="Tìm kiếm theo tên sách / Tác giả">
+<button id="searchBtn">Tìm</button>
+</div>
     <div class="content">
-        <h2>Thêm sách mới</h2>
+        
         <form id="bookForm">
+        <h2>Thêm sách mới</h2>
     <input type="text" id="bookName" placeholder="Tên sách" required>
     <input type="text" id="authorName" placeholder="Tên tác giả" required>
     <input type="text" id="bookCode" placeholder="Mã sách" required>
@@ -92,26 +91,28 @@
     <button type="submit">Thêm sách</button>
 </form>
 
-<input type="text" id="searchInput" placeholder="Tìm kiếm...">
-<button id="searchBtn">Tìm</button>
 
-<table id="bookList">
-    <thead>
-        <tr>
-            <th>Bìa sách</th>
-            <th>Tên sách</th>
-            <th>Tác giả</th>
-            <th>Mã sách</th>
-            <th>Số lượng</th>
-            <th>Mô tả</th>
-            <th>Ngày thêm</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Danh sách sách sẽ được thêm vào đây -->
-    </tbody>
-</table>
+
+<div style="overflow-x: auto; max-width: 100%;">
+    <table id="bookList">
+        <thead>
+            <tr>
+                <th>Bìa sách</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Mã sách</th>
+                <th>Số lượng</th>
+                <th>Mô tả</th>
+                <th>Ngày thêm</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Danh sách sách sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+</div>
+
     
     </div>
 
