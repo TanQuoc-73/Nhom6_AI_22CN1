@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const bookForm = document.getElementById("bookForm");
     const bookList = document.getElementById("bookList").getElementsByTagName('tbody')[0];
     const searchInput = document.getElementById("searchInput");
+    let editIndex = -1; // Khai báo biến để theo dõi chỉ số của sách đang chỉnh sửa
 
     // Load books from localStorage
     const loadBooks = () => {
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${book.name}</td>
                 <td>${book.author}</td>
                 <td>${book.code}</td>
+                <td>${book.category}</td>
                 <td>${book.quantity}</td>
                 <td>${book.description}</td>
                 <td>${book.dateAdded}</td>
@@ -26,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    // Add book
+    // Add or Edit book
     bookForm.addEventListener("submit", (event) => {
         event.preventDefault();
 
@@ -34,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const author = document.getElementById("authorName").value;
         const code = document.getElementById("bookCode").value;
         const quantity = document.getElementById("bookQuantity").value;
+        const category = document.getElementById("bookCategory").value;
         const description = document.getElementById("bookDescription").value;
         const dateAdded = new Date().toLocaleDateString(); // Lấy ngày hiện tại
         const coverFile = document.getElementById("bookCover").files[0];
@@ -43,7 +46,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const cover = reader.result; // Convert image to base64
 
             const books = JSON.parse(localStorage.getItem("books")) || [];
-            books.push({ name, author, code, quantity, description, dateAdded, cover });
+            
+            if (editIndex === -1) {
+                // Thêm sách mới
+                books.push({ name, author, code, category, quantity, description, dateAdded, cover });
+            } else {
+                // Cập nhật sách đã chỉnh sửa
+                books[editIndex] = { name, author, code, category, quantity, description, dateAdded, cover };
+                editIndex = -1; // Reset chỉ số sau khi chỉnh sửa
+            }
+            
             localStorage.setItem("books", JSON.stringify(books));
 
             bookForm.reset();
@@ -52,8 +64,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (coverFile) {
             reader.readAsDataURL(coverFile);
+        } else if (editIndex !== -1) {
+            // Nếu không chọn ảnh mới khi chỉnh sửa, giữ ảnh cũ
+            const books = JSON.parse(localStorage.getItem("books")) || [];
+            const cover = books[editIndex].cover; // Lấy ảnh cũ
+            books[editIndex] = { name, author, code, category, quantity, description, dateAdded, cover };
+            localStorage.setItem("books", JSON.stringify(books));
+
+            editIndex = -1; // Reset chỉ số sau khi chỉnh sửa
+            bookForm.reset();
+            loadBooks();
         } else {
-            alert("Vui lòng chọn ảnh bìa sách."); // Thông báo nếu không có ảnh bìa
+            alert("Vui lòng chọn ảnh bìa sách."); // Thông báo nếu không có ảnh bìa cho sách mới
         }
     });
 
@@ -67,16 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("authorName").value = book.author;
         document.getElementById("bookCode").value = book.code;
         document.getElementById("bookQuantity").value = book.quantity;
+        document.getElementById("bookCategory").value = book.category; // Điền thể loại sách
         document.getElementById("bookDescription").value = book.description;
+        
+        // Không yêu cầu tải lại ảnh bìa khi chỉnh sửa
+        document.getElementById("bookCover").required = false;
 
-        // Cập nhật giá trị cover để cho phép người dùng tải ảnh bìa mới
-        document.getElementById("bookCover").required = false; // Không cần thiết để tải lại ảnh bìa
-
-        // Xóa sách cũ để thêm vào sau khi sửa
-        books.splice(index, 1);
-        localStorage.setItem("books", JSON.stringify(books));
-
-        loadBooks();
+        editIndex = index; // Lưu chỉ số sách đang chỉnh sửa
     };
 
     // Delete book
@@ -95,6 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             book.name.toLowerCase().includes(query) ||
             book.author.toLowerCase().includes(query) ||
             book.code.toLowerCase().includes(query) ||
+            book.category.toLowerCase().includes(query) ||
             book.dateAdded.includes(query)
         );
 
@@ -106,6 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 <td>${book.name}</td>
                 <td>${book.author}</td>
                 <td>${book.code}</td>
+                <td>${book.category}</td>
                 <td>${book.quantity}</td>
                 <td>${book.description}</td>
                 <td>${book.dateAdded}</td>

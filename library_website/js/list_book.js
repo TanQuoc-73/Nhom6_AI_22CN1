@@ -19,20 +19,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${book.cover}" alt="${book.name}" style="width: 100px; height: 150px;">
                 <p>${book.name}</p>
                 <p>${book.author}</p>
+                <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại sách -->
             `;
 
             // Mở modal hiển thị thông tin sách khi click
             bookDiv.addEventListener("click", () => {
                 modalBookDetails.innerHTML = `
+                    <span class="close-modal">&times;</span>
                     <h2>${book.name}</h2>
                     <img src="${book.cover}" alt="${book.name}" style="width: 200px; height: 300px;">
                     <p><strong>Tác giả:</strong> ${book.author}</p>
                     <p><strong>Mã sách:</strong> ${book.code}</p>
                     <p><strong>Số lượng:</strong> ${book.quantity}</p>
                     <p><strong>Mô tả:</strong> ${book.description}</p>
+                    <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại trong modal -->
                     <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
                 `;
                 bookModal.style.display = "block"; // Hiển thị modal sách
+
+                // Thêm chức năng đóng modal khi nhấn vào nút "X"
+                const closeModal = document.querySelector('.close-modal');
+                closeModal.addEventListener('click', () => {
+                    bookModal.style.display = "none";
+                });
             });
 
             newBookList.appendChild(bookDiv);
@@ -45,7 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const books = JSON.parse(localStorage.getItem("books")) || [];
         const filteredBooks = books.filter(book =>
             book.name.toLowerCase().includes(query) ||
-            book.author.toLowerCase().includes(query)
+            book.author.toLowerCase().includes(query) ||
+            book.category.toLowerCase().includes(query) // Tìm kiếm theo thể loại
         );
 
         // Hiển thị kết quả tìm kiếm trong modal
@@ -59,17 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img src="${book.cover}" alt="${book.name}" style="width: 50px; height: 75px;">
                     <p>${book.name}</p>
                     <p>${book.author}</p>
+                    <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại -->
                 `;
 
                 // Mở modal hiển thị thông tin sách khi click
                 resultDiv.addEventListener("click", () => {
                     modalBookDetails.innerHTML = `
+                        <span class="close-modal">&times;</span>
                         <h2>${book.name}</h2>
                         <img src="${book.cover}" alt="${book.name}" style="width: 200px; height: 300px;">
                         <p><strong>Tác giả:</strong> ${book.author}</p>
                         <p><strong>Mã sách:</strong> ${book.code}</p>
                         <p><strong>Số lượng:</strong> ${book.quantity}</p>
                         <p><strong>Mô tả:</strong> ${book.description}</p>
+                        <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại trong modal -->
                         <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
                     `;
                     bookModal.style.display = "block"; // Hiển thị modal sách

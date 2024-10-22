@@ -81,11 +81,26 @@
     <div class="content">
         
         <form id="bookForm">
-        <h2>Thêm sách mới</h2>
+    <h2>Thêm sách mới</h2>
     <input type="text" id="bookName" placeholder="Tên sách" required>
     <input type="text" id="authorName" placeholder="Tên tác giả" required>
     <input type="text" id="bookCode" placeholder="Mã sách" required>
     <input type="number" id="bookQuantity" placeholder="Số lượng" required>
+    
+    <!-- Thêm mục chọn thể loại sách -->
+    <label for="bookCategory">Thể loại sách</label>
+    <select id="bookCategory" required>
+        <option value="" disabled selected>Chọn thể loại</option>
+        <option value="Sách giáo khoa">Sách giáo khoa (dành cho học tập)</option>
+        <option value="Sách bổ sung">Sách bổ sung (hỗ trợ nghiên cứu)</option>
+        <option value="Tài liệu tham khảo">Tài liệu tham khảo (dễ dàng tra cứu)</option>
+        <option value="Sách giải trí">Sách giải trí (truyện tranh, tiểu thuyết,...)</option>
+        <option value="Sách khoa học">Sách khoa học</option>
+        <option value="Sách hướng dẫn">Sách hướng dẫn (hướng dẫn sử dụng)</option>
+        <option value="Sách văn học và ngôn ngữ">Sách văn học và ngôn ngữ (tiểu thuyết)</option>
+        <option value="Sách kỹ thuật">Sách kỹ thuật (chuyên sâu)</option>
+    </select>
+    
     <textarea id="bookDescription" placeholder="Mô tả" required></textarea>
     <input type="file" id="bookCover" accept="image/*" required>
     <button type="submit">Thêm sách</button>
@@ -93,24 +108,26 @@
 
 
 
+
 <div style="overflow-x: auto; max-width: 100%;">
     <table id="bookList">
-        <thead>
-            <tr>
-                <th>Bìa sách</th>
-                <th>Tên sách</th>
-                <th>Tác giả</th>
-                <th>Mã sách</th>
-                <th>Số lượng</th>
-                <th>Mô tả</th>
-                <th>Ngày thêm</th>
-                <th>Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Danh sách sách sẽ được thêm vào đây -->
-        </tbody>
-    </table>
+    <thead>
+        <tr>
+            <th>Bìa sách</th>
+            <th>Tên sách</th>
+            <th>Tác giả</th>
+            <th>Mã sách</th>
+            <th>Thể loại</th> <!-- Thêm cột thể loại -->
+            <th>Số lượng</th>
+            <th>Mô tả</th>
+            <th>Ngày thêm</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Danh sách sách sẽ được thêm vào đây -->
+    </tbody>
+</table>
 </div>
 
     
