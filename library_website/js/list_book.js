@@ -7,6 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.getElementById("searchButton");
     const searchInput = document.getElementById("search");
 
+    // Biến để theo dõi số lần nhấn sách
+    let bookClickCount = {};
+
     // Hàm load và hiển thị sách
     const loadBooks = () => {
         const books = JSON.parse(localStorage.getItem("books")) || [];
@@ -22,8 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Thể loại:</strong> ${book.category}</p>
             `;
 
+            // Khởi tạo số lần nhấn cho sách này
+            bookClickCount[book.code] = 0;
+
             // Mở modal hiển thị thông tin sách khi click
             bookDiv.addEventListener("click", () => {
+                bookClickCount[book.code]++; // Tăng số lần nhấn khi click vào sách
                 showBookDetails(book);
             });
 
@@ -82,11 +89,24 @@ document.addEventListener("DOMContentLoaded", () => {
     searchButton.addEventListener("click", () => {
         const query = searchInput.value.toLowerCase();
         const books = JSON.parse(localStorage.getItem("books")) || [];
-        const filteredBooks = books.filter(book =>
-            book.name.toLowerCase().includes(query) ||
-            book.author.toLowerCase().includes(query) ||
-            book.category.toLowerCase().includes(query) // Tìm kiếm theo thể loại
-        );
+        
+        // Tìm kiếm theo tên, tác giả, thể loại và mô tả
+        const filteredBooks = books.filter(book => {
+            const titleMatch = book.name.toLowerCase().includes(query);
+            const authorMatch = book.author.toLowerCase().includes(query);
+            const categoryMatch = book.category.toLowerCase().includes(query);
+            const descriptionMatch = book.description.toLowerCase().includes(query);
+
+            // Kiểm tra từng từ trong mô tả sách
+            const keywords = query.split(" ");
+            const descriptionWords = book.description.toLowerCase().split(" ");
+
+            const similarMatch = keywords.some(keyword => 
+                descriptionWords.some(word => word.includes(keyword))
+            );
+
+            return titleMatch || authorMatch || categoryMatch || similarMatch || descriptionMatch;
+        });
 
         // Hiển thị kết quả tìm kiếm trong modal
         searchResults.innerHTML = ''; // Xóa kết quả cũ
