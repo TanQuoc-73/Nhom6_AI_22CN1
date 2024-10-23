@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const displayFeaturedBooks = () => {
-        const interesBookDiv = document.getElementById("interes_book");
-        interesBookDiv.innerHTML = '';
-
+        const similarBookDiv = document.getElementById("similarBookList");
+        similarBookDiv.innerHTML = '';  // Xóa nội dung cũ trước khi thêm sách mới
+    
         const sortedBooks = Object.keys(bookClicks)
             .map(code => {
                 const book = JSON.parse(localStorage.getItem("books")).find(b => b.code === code);
@@ -95,9 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
             })
             .filter(item => item.book)
             .sort((a, b) => b.clicks - a.clicks);
-
-        const topFeaturedBooks = sortedBooks.slice(0, 5);
-
+    
+        const topFeaturedBooks = sortedBooks.slice(0, 5);  // Hiển thị tối đa 5 sách nổi bật
+    
         topFeaturedBooks.forEach(({ book }) => {
             const bookItem = document.createElement("div");
             bookItem.classList.add("featured-book-item");
@@ -106,15 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p>${book.name}</p>
                 <p>${book.author}</p>
             `;
-
+    
+            // Thêm sự kiện click để hiển thị chi tiết sách
             bookItem.addEventListener("click", () => {
                 showBookDetails(book);
             });
-
-            interesBookDiv.appendChild(bookItem);
+    
+            similarBookDiv.appendChild(bookItem);  // Thêm sách vào div similarBookList
         });
     };
-
     searchButton.addEventListener("click", () => {
         const query = searchInput.value.toLowerCase();
         const books = JSON.parse(localStorage.getItem("books")) || [];
