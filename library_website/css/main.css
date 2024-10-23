@@ -298,3 +298,61 @@ body{
     align-items: start;
     font-size: 1.2rem;
 }
+
+
+/* Phần cho danh sách sách tương tự */
+.interes-book {
+    display: flex; /* Hiển thị các mục trong danh sách nằm ngang */
+    overflow-x: auto; /* Thêm thanh cuộn nằm ngang nếu cần */
+    max-width: 100%; /* Chiều rộng tối đa */
+    padding: 10px; /* Khoảng cách xung quanh */
+}
+
+.similar-book-item {
+    flex: 0 0 auto; /* Không cho phép co lại hoặc mở rộng */
+    width: 100px; /* Chiều rộng cho mỗi sách */
+    margin-right: 10px; /* Khoảng cách giữa các sách */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+/* Các quy tắc đã có trong phần bookList */
+.imgs {
+    width: 80px; /* Chiều rộng cho hình ảnh sách */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+    transition: transform 0.3s; /* Thêm hiệu ứng chuyển tiếp cho hiệu ứng phóng to */
+}
+
+.imgs:hover {
+    transform: scale(1.02); /* Phóng to hình ảnh khi di chuột qua */
+    cursor: pointer;
+}
+
+.imgs:active {
+    transform: scale(0.9); /* Giảm kích thước khi nhấn */
+    transition: transform 0.2s;
+}
+
+
+/* Chỉnh sửa cho các hình ảnh trong danh sách sách tương tự */
+.interes-book .similar-book-item img {
+    width: 80px; /* Chiều rộng cho hình ảnh sách tương tự */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+}
+
+.interes-book .similar-book-item:hover img {
+    transform: scale(1.03);
+    transition: 0.3s;
+}
+
+.book-list {
+    display: flex;
+    overflow-x: auto; /* Cuộn theo chiều ngang */
+    padding: 10px; /* Padding cho khoảng cách bên trong */
+}
+
+.book-item {
+    flex: 0 0 auto; /* Giữ kích thước sách không thay đổi */
+    margin-right: 10px; /* Khoảng cách giữa các sách */
+    text-align: center; /* Căn giữa nội dung sách */
+}
+

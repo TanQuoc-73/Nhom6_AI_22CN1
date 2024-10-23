@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Biến để theo dõi số lần nhấn sách
     let bookClickCount = {};
+    let bookClicks = {}; // Lưu trữ số lần nhấn cho mỗi sách
 
     // Hàm load và hiển thị sách
     const loadBooks = () => {
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Mở modal hiển thị thông tin sách khi click
             bookDiv.addEventListener("click", () => {
                 bookClickCount[book.code]++; // Tăng số lần nhấn khi click vào sách
+                bookClicks[book.code] = bookClickCount[book.code]; // Lưu số lần nhấn
                 showBookDetails(book);
             });
 
@@ -52,6 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
             <h3>Sách gợi ý</h3>
             <div class="suggestions" id="suggestions"></div>
+            <h3>Sách nổi bật</h3>
+            <div class="interes_book" id="interes_book"></div> <!-- Đổi tên class thành interes_book -->
         `;
         bookModal.style.display = "block"; // Hiển thị modal sách
 
@@ -78,10 +82,48 @@ document.addEventListener("DOMContentLoaded", () => {
             suggestionsDiv.appendChild(suggestionItem);
         });
 
+        // Hiển thị sách nổi bật
+        displayFeaturedBooks();
+
         // Thêm chức năng đóng modal khi nhấn vào nút "X"
         const closeModal = document.querySelector('.close-modal');
         closeModal.addEventListener('click', () => {
-            bookModal.style.display = "none";
+            bookModal.style.display = "none"; // Ẩn modal sách
+        });
+    };
+
+    // Hàm hiển thị sách nổi bật dựa trên số lần nhấn
+    const displayFeaturedBooks = () => {
+        const interesBookDiv = document.getElementById("interes_book");
+        interesBookDiv.innerHTML = ''; // Xóa danh sách cũ
+
+        // Sắp xếp các sách theo số lần nhấn
+        const sortedBooks = Object.keys(bookClicks)
+            .map(code => {
+                const book = JSON.parse(localStorage.getItem("books")).find(b => b.code === code);
+                return { book, clicks: bookClicks[code] };
+            })
+            .filter(item => item.book) // Lọc ra những sách có tồn tại
+            .sort((a, b) => b.clicks - a.clicks); // Sắp xếp theo số lần nhấn
+
+        // Chỉ lấy 5 sách nổi bật nhất
+        const topFeaturedBooks = sortedBooks.slice(0, 5);
+
+        topFeaturedBooks.forEach(({ book }) => {
+            const bookItem = document.createElement("div");
+            bookItem.classList.add("featured-book-item");
+            bookItem.innerHTML = `
+                <img src="${book.cover}" alt="${book.name}" style="width: 80px; height: 120px;">
+                <p>${book.name}</p>
+                <p>${book.author}</p>
+            `;
+
+            // Mở modal hiển thị thông tin sách khi click
+            bookItem.addEventListener("click", () => {
+                showBookDetails(book);
+            });
+
+            interesBookDiv.appendChild(bookItem);
         });
     };
 
