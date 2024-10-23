@@ -178,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let scrollLeft;
 
     newBookList.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // Ngăn chặn hành động mặc định để không bôi đen văn bản
         isDown = true;
         newBookList.classList.add('active');
         startX = e.pageX - newBookList.offsetLeft;
