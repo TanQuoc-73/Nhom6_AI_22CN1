@@ -62,7 +62,7 @@
         
         
         <div class="choice">
-            <a href="index.html" class="c1">Trang chủ</a>
+            <a href="/library_admin/pages/index.htm" class="c1">Trang chủ</a>
             <a href="#" class="c2">Mượn trả</a>
             <a href="#" class="c3">Tin tức</a>
             <a href="#" class="c4">Giới thiệu</a>
@@ -86,6 +86,8 @@
     <input type="text" id="authorName" placeholder="Tên tác giả" required>
     <input type="text" id="bookCode" placeholder="Mã sách" required>
     <input type="number" id="bookQuantity" placeholder="Số lượng" required>
+    <textarea id="bookDescription" placeholder="Mô tả" required></textarea>
+
     
     <!-- Thêm mục chọn thể loại sách -->
     <label for="bookCategory">Thể loại sách</label>
@@ -101,7 +103,7 @@
         <option value="Sách kỹ thuật">Sách kỹ thuật (chuyên sâu)</option>
     </select>
     
-    <textarea id="bookDescription" placeholder="Mô tả" required></textarea>
+    
     <input type="file" id="bookCover" accept="image/*" required>
     <button type="submit">Thêm sách</button>
 </form>
@@ -109,26 +111,28 @@
 
 
 
-<div style="overflow-x: auto; max-width: 100%;">
-    <table id="bookList">
-    <thead>
-        <tr>
-            <th>Bìa sách</th>
-            <th>Tên sách</th>
-            <th>Tác giả</th>
-            <th>Mã sách</th>
-            <th>Thể loại</th> <!-- Thêm cột thể loại -->
-            <th>Số lượng</th>
-            <th>Mô tả</th>
-            <th>Ngày thêm</th>
-            <th>Thao tác</th>
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Danh sách sách sẽ được thêm vào đây -->
-    </tbody>
-</table>
-</div>
+
+    <div class="bookList-container">
+        <table id="bookList">
+        <thead>
+            <tr>
+                <th>Bìa sách</th>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Mã sách</th>
+                <th>Thể loại</th> <!-- Thêm cột thể loại -->
+                <th>Số lượng</th>
+                <th>Mô tả</th>
+                <th>Ngày thêm</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Danh sách sách sẽ được thêm vào đây -->
+        </tbody>
+    </table>
+    </div>
+   
 
     
     </div>

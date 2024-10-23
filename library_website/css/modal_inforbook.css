@@ -126,3 +126,25 @@
         transition: transform 0.3s ease;
     }
 }
+
+
+.suggestions {
+    display: flex;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    padding: 10px 0;
+}
+
+.suggestion-item {
+    margin-right: 10px;
+    cursor: pointer; /* Chỉ thị rằng đây là một phần tử có thể nhấp */
+}
+#newBookList {
+    display: flex;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    cursor: grab; /* Hiển thị biểu tượng tay khi kéo */
+}
+
+#newBookList.active {
+    cursor: grabbing; /* Hiển thị biểu tượng tay khi đang kéo */
+}
+

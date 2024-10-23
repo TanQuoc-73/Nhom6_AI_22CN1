@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Thu Vien</title>
+    <link rel="stylesheet" href="/library_website/css/main.css">
+    <link rel="stylesheet" href="/library_website/css/base.css">
+    <link rel="stylesheet" href="/library_website/css/modal.css">
+    <link rel="stylesheet" href="/library_website/css/search.css">
+    <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="/library_website/css/category.css">
+    <link rel="stylesheet" href="">
+    
+</head>
+<body>
+    <div class="head-line">
+        <div id="hotline">
+            
+            <h1><i class="fa-solid fa-phone"></i>Hotline</h1>
+            <h2>0823415747</h2>
+
+        </div>
+
+        <div id="term">
+            <div class="term1">
+                <a href="#">Điều khoản</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">Liên hệ</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">QR</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="header">
+        <div id="logo">
+            <h1>
+                <i class="fa-solid fa-book"></i>
+                THUVIENHAU
+            </h1>
+            
+        </div>
+
+
+
+
+        <div class="search" id="searchDiv">
+                <input id="search" type="text" placeholder=" Bạn muốn tìm sách / tác giả nào ?"></input>
+                 <button id="searchButton">Tìm kiếm</button>
+        
+       
+            
+        
+        </div>
+        <div class="modal_search" id="searchModal">
+    <div class="modal_content">
+        <div id="searchResults"></div>
+    </div>
+</div>
+        
+
+
+        
+        <div id="rightop">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+    </div>
+    
+    
+    
+    <div class="bar" id="option">
+        
+            <div class="catalog">
+                <h1>
+                    <i class="fa-solid fa-bars"></i>
+                    Danh mục sản phẩm
+                </h1>
+            </div>
+        
+        
+        <div class="choice">
+            <a href="/library_website/pages/index.htm" class="c1">Trang chủ</a>
+            <a href="#" class="c2">Mượn trả</a>
+            <a href="#" class="c3">Tin tức</a>
+            <a href="#" class="c4">Giới thiệu</a>
+            <a href="#" class="c5">Liên hệ</a>
+        </div>
+        
+    </div>
+        <div class="danhmuc" id="danhMuc"></div>
+
+
+        <!-- Modal hiển thị thể loại sách -->
+    <div class="modaldanhmuc">
+        <div class="modal1" id="modalTheLoai">
+            <ul>
+                <li>
+                    <a href="#">Thể loại</a>
+                    <i class="fa-solid fa-bars"></i>
+                </li>
+                <li>Sách thiếu nhi</li>
+                <li>Sách văn học</li>
+                <li>Truyện tranh</li>
+            </ul>
+            <script src="/library_website/js/modalTheLoai.js"></script>
+        </div>
+    </div>
+            
+    
+    
+   <div class="content">
+        <div class="new">
+        <img src="/library_website/assets/imgs/011f185fac9ca611013ee04daa8e95.jpg" alt="main_img">
+        </div>
+        <div class="category-container">
+            <h1>Chọn thể loại sách</h1>
+    <div class="category-list">
+        <div class="category-item" data-category="Sách giáo khoa">Sách giáo khoa</div>
+        <div class="category-item" data-category="Sách bổ sung">Sách bổ sung</div>
+        <div class="category-item" data-category="Tài liệu tham khảo">Tài liệu tham khảo</div>
+        <div class="category-item" data-category="Sách giải trí">Sách giải trí</div>
+        <div class="category-item" data-category="Sách khoa học">Sách khoa học</div>
+        <div class="category-item" data-category="Sách hướng dẫn">Sách hướng dẫn</div>
+        <div class="category-item" data-category="Sách văn học và ngôn ngữ">Sách văn học và ngôn ngữ</div>
+        <div class="category-item" data-category="Sách kỹ thuật">Sách kỹ thuật</div>
+    </div>
+
+    <h2>Danh sách sách</h2>
+    <div class="book-list" id="bookList"></div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalBookName"></h2>
+            <img id="modalBookCover" src="" alt="Bìa sách" style="width: 100px; height: 150px;">
+            <p><strong>Tác giả:</strong> <span id="modalAuthorName"></span></p>
+            <p><strong>Mã sách:</strong> <span id="modalBookCode"></span></p>
+            <p><strong>Thể loại:</strong> <span id="modalBookCategory"></span></p>
+            <p><strong>Số lượng:</strong> <span id="modalBookQuantity"></span></p>
+            <p><strong>Mô tả:</strong> <span id="modalBookDescription"></span></p>
+            <h3>Sách liên quan</h3>
+            <div class="related-books" id="relatedBooks"></div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalBookName"></h2>
+            <img id="modalBookCover" src="" alt="Bìa sách" style="width: 100px; height: 150px;">
+            <p><strong>Tác giả:</strong> <span id="modalAuthorName"></span></p>
+            <p><strong>Mã sách:</strong> <span id="modalBookCode"></span></p>
+            <p><strong>Thể loại:</strong> <span id="modalBookCategory"></span></p>
+            <p><strong>Số lượng:</strong> <span id="modalBookQuantity"></span></p>
+            <p><strong>Mô tả:</strong> <span id="modalBookDescription"></span></p>
+            <h3>Sách liên quan</h3>
+            <div class="related-books" id="relatedBooks"></div>
+        </div>
+    </div>
+    
+  
+   
+   
+    <div class="footer">
+        <div id="footer1">
+            <a href="#" class="c1">Giới thiệu</a>
+            <a href="#" class="c2">Liên hệ</a>
+        </div>
+        <div id="footer2"></div>
+        <div id="footer3"></div>
+        <div id="footer4"></div>
+    </div> 
+</body>
+<script src="/library_website/js/category.js"></script>
+<script src="/library_website/js/list_book.js"></script>
+</html>

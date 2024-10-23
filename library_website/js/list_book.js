@@ -19,32 +19,62 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${book.cover}" alt="${book.name}" style="width: 100px; height: 150px;">
                 <p>${book.name}</p>
                 <p>${book.author}</p>
-                <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại sách -->
+                <p><strong>Thể loại:</strong> ${book.category}</p>
             `;
 
             // Mở modal hiển thị thông tin sách khi click
             bookDiv.addEventListener("click", () => {
-                modalBookDetails.innerHTML = `
-                    <span class="close-modal">&times;</span>
-                    <h2>${book.name}</h2>
-                    <img src="${book.cover}" alt="${book.name}" style="width: 200px; height: 300px;">
-                    <p><strong>Tác giả:</strong> ${book.author}</p>
-                    <p><strong>Mã sách:</strong> ${book.code}</p>
-                    <p><strong>Số lượng:</strong> ${book.quantity}</p>
-                    <p><strong>Mô tả:</strong> ${book.description}</p>
-                    <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại trong modal -->
-                    <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
-                `;
-                bookModal.style.display = "block"; // Hiển thị modal sách
-
-                // Thêm chức năng đóng modal khi nhấn vào nút "X"
-                const closeModal = document.querySelector('.close-modal');
-                closeModal.addEventListener('click', () => {
-                    bookModal.style.display = "none";
-                });
+                showBookDetails(book);
             });
 
             newBookList.appendChild(bookDiv);
+        });
+    };
+
+    // Hàm hiển thị chi tiết sách và gợi ý sách liên quan
+    const showBookDetails = (book) => {
+        modalBookDetails.innerHTML = `
+            <span class="close-modal">&times;</span>
+            <h2>${book.name}</h2>
+            <img src="${book.cover}" alt="${book.name}" style="width: 200px; height: 300px;">
+            <p><strong>Tác giả:</strong> ${book.author}</p>
+            <p><strong>Mã sách:</strong> ${book.code}</p>
+            <p><strong>Số lượng:</strong> ${book.quantity}</p>
+            <p><strong>Mô tả:</strong> ${book.description}</p>
+            <p><strong>Thể loại:</strong> ${book.category}</p>
+            <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
+            <h3>Sách gợi ý</h3>
+            <div class="suggestions" id="suggestions"></div>
+        `;
+        bookModal.style.display = "block"; // Hiển thị modal sách
+
+        // Tìm sách gợi ý cùng tác giả và cùng thể loại
+        const books = JSON.parse(localStorage.getItem("books")) || [];
+        const suggestions = books.filter(b => 
+            (b.author === book.author || b.category === book.category) && b.code !== book.code
+        );
+
+        const suggestionsDiv = document.getElementById("suggestions");
+        suggestions.forEach(suggestedBook => {
+            const suggestionItem = document.createElement("div");
+            suggestionItem.classList.add("suggestion-item");
+            suggestionItem.innerHTML = `
+                <img src="${suggestedBook.cover}" alt="${suggestedBook.name}" style="width: 80px; height: 120px;">
+                <p>${suggestedBook.name}</p>
+            `;
+
+            // Mở modal hiển thị thông tin sách khi click vào sách gợi ý
+            suggestionItem.addEventListener("click", () => {
+                showBookDetails(suggestedBook);
+            });
+
+            suggestionsDiv.appendChild(suggestionItem);
+        });
+
+        // Thêm chức năng đóng modal khi nhấn vào nút "X"
+        const closeModal = document.querySelector('.close-modal');
+        closeModal.addEventListener('click', () => {
+            bookModal.style.display = "none";
         });
     };
 
@@ -74,18 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Mở modal hiển thị thông tin sách khi click
                 resultDiv.addEventListener("click", () => {
-                    modalBookDetails.innerHTML = `
-                        <span class="close-modal">&times;</span>
-                        <h2>${book.name}</h2>
-                        <img src="${book.cover}" alt="${book.name}" style="width: 200px; height: 300px;">
-                        <p><strong>Tác giả:</strong> ${book.author}</p>
-                        <p><strong>Mã sách:</strong> ${book.code}</p>
-                        <p><strong>Số lượng:</strong> ${book.quantity}</p>
-                        <p><strong>Mô tả:</strong> ${book.description}</p>
-                        <p><strong>Thể loại:</strong> ${book.category}</p> <!-- Hiển thị thể loại trong modal -->
-                        <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
-                    `;
-                    bookModal.style.display = "block"; // Hiển thị modal sách
+                    showBookDetails(book);
                 });
 
                 searchResults.appendChild(resultDiv);
@@ -109,4 +128,47 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Tải sách khi trang được tải
     loadBooks();
+
+    // Cuộn danh sách sách
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    newBookList.addEventListener('mousedown', (e) => {
+        isDown = true;
+        newBookList.classList.add('active');
+        startX = e.pageX - newBookList.offsetLeft;
+        scrollLeft = newBookList.scrollLeft;
+    });
+
+    newBookList.addEventListener('mouseleave', () => {
+        isDown = false;
+        newBookList.classList.remove('active');
+    });
+
+    newBookList.addEventListener('mouseup', () => {
+        isDown = false;
+        newBookList.classList.remove('active');
+    });
+
+    newBookList.addEventListener('mousemove', (e) => {
+        if (!isDown) return; // Nếu không đang nhấn chuột
+        e.preventDefault();
+        const x = e.pageX - newBookList.offsetLeft;
+        const walk = (x - startX) * 2; // Tốc độ cuộn
+        newBookList.scrollLeft = scrollLeft - walk;
+    });
+
+    // Cuộn bằng chuột
+    newBookList.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        newBookList.scrollLeft += e.deltaY; // Cuộn theo hướng lăn chuột
+    });
+
+    // Ngăn chặn việc kéo hình ảnh khi nhấn chuột vào hình ảnh sách
+    newBookList.addEventListener('mousedown', (e) => {
+        if (e.target.tagName === 'IMG') {
+            e.preventDefault(); // Ngăn chặn việc kéo hình ảnh
+        }
+    });
 });

@@ -1,9 +1,21 @@
+
 #bookList img {
     width: 50px;
     height: 50px;
     object-fit: cover;
 }
-
+#bookList td {
+    color: rgb(94, 74, 67);
+    width: 100px;
+    button{
+        color: rgb(94, 74, 67);
+        background-color: rgb(229, 175, 148);
+        padding: 7px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+    }
+}
 .content {
     padding: 20px;
     background-color: #f9f9f9;
@@ -38,3 +50,9 @@ form input, form textarea, form button {
 .search-section {
     margin: 20px 0;
 }
+
+#bookForm{
+    width: 300px;
+}
+
+
