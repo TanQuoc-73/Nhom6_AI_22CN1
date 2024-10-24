@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat với Trí Tuệ Nhân Tạo - Tìm Sách</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+}
+
+#header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.chat-window {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    max-height: 200px; /* Giới hạn chiều cao cho cửa sổ chat */
+    overflow-x: auto; /* Thay đổi thanh cuộn thành ngang */
+    white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
+}
+
+.chat-history {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    max-height: 200px; /* Giới hạn chiều cao cho lịch sử chat */
+    overflow-x: auto; /* Thay đổi thanh cuộn thành ngang */
+    white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
+}
+
+.book-results, .similar-books {
+    margin-top: 20px;
+}
+
+.book-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.book-item img {
+    width: 80px;
+    height: auto;
+}
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+        }
+        #chatWindow {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+            border-radius: 10px;
+        }
+        #chatWindow p {
+            margin: 10px 0;
+        }
+        .user-message {
+            text-align: right;
+            color: #2b8a3e;
+        }
+        .bot-message {
+            text-align: left;
+            color: #007bff;
+        }
+        #userInput {
+            width: calc(100% - 100px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        #sendBtn, #toggleLangBtn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #sendBtn:hover, #toggleLangBtn:hover {
+            background-color: #218838;
+        }
+        #toggleLangBtn {
+            float: right;
+            background-color: #007bff;
+        }
+        .book-results {
+            margin-top: 20px;
+        }
+        .book-item {
+            display: inline-block;
+            width: 150px;
+            text-align: center;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .book-item img {
+            width: 100px;
+            height: 150px;
+            object-fit: cover;
+        }
+        .similar-books {
+            margin-top: 20px;
+        }
+        .no-results {
+            color: red;
+        }
+        #bookResults {
+    max-height: 400px;  /* Giới hạn chiều cao danh sách sách */
+    overflow-y: auto;   /* Hiển thị thanh cuộn khi danh sách dài */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;  /* Khoảng cách giữa các sách */
+}
+
+.book-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.book-item img {
+    width: 80px;
+    height: auto;
+}
+
+/* CSS cho modal */
+.modal {
+    display: none; /* Ẩn modal theo mặc định */
+    position: fixed; /* Vị trí cố định */
+    z-index: 1000; /* Đặt trên cùng */
+    left: 0;
+    top: 0;
+    width: 100%; /* Toàn bộ chiều rộng */
+    height: 100%; /* Toàn bộ chiều cao */
+    overflow: auto; /* Cho phép cuộn nếu cần */
+    background-color: rgb(0,0,0); /* Màu nền */
+    background-color: rgba(0,0,0,0.4); /* Nền trong suốt */
+}
+
+/* Nội dung modal */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* Đặt giữa */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Chiều rộng của modal */
+}
+
+/* Nút đóng modal */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="header">
+        <h1>Chat với Trí Tuệ Nhân Tạo - Tìm Sách</h1>
+    </div>
+    <div id="chatWindow" class="chat-window"></div>
+    <input type="text" id="userInput" placeholder="Nhập tên sách, tác giả, mã sách, hoặc mô tả...">
+    <button id="sendBtn">Gửi</button>
+    <button id="clearChatBtn">Xóa Chat</button>
+    <button id="toggleLangBtn">English</button>
+    <div id="bookResults" class="book-results"></div>
+    <div id="similarBooks" class="similar-books"></div>
+    <div id="chatHistory" class="chat-history"></div>
+</div>
+<!-- Modal cho thông tin sách -->
+<div id="bookModal" class="modal">
+    <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h2 id="modalBookTitle"></h2>
+        <img id="modalBookCover" src="" alt="Book Cover" />
+        <p><strong>Tác giả:</strong> <span id="modalBookAuthor"></span></p>
+        <p><strong>Thể loại:</strong> <span id="modalBookCategory"></span></p>
+        <p><strong>Mô tả:</strong> <span id="modalBookDescription"></span></p>
+        <h3>Sách liên quan:</h3>
+        <div id="modalSimilarBooks"></div>
+    </div>
+</div>
+<button id="clearChatBtn">Xóa Lịch Sử</button>
+
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", () => {
+    const chatWindow = document.getElementById("chatWindow");
+    const userInput = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const clearChatBtn = document.getElementById("clearChatBtn");
+    const bookResults = document.getElementById("bookResults");
+    const similarBooks = document.getElementById("similarBooks");
+    const chatHistory = document.getElementById("chatHistory");
+    const header = document.getElementById("header");
+    const bookModal = document.getElementById("bookModal");
+    const closeModal = document.getElementById("closeModal");
+    const modalBookTitle = document.getElementById("modalBookTitle");
+    const modalBookCover = document.getElementById("modalBookCover");
+    const modalBookAuthor = document.getElementById("modalBookAuthor");
+    const modalBookCategory = document.getElementById("modalBookCategory");
+    const modalBookDescription = document.getElementById("modalBookDescription");
+    const modalSimilarBooks = document.getElementById("modalSimilarBooks");
+    const toggleLangBtn = document.getElementById("toggleLangBtn");
+
+    let currentLang = 'vi'; // Ngôn ngữ mặc định là tiếng Việt
+    const books = JSON.parse(localStorage.getItem("books")) || []; // Dữ liệu sách từ localStorage
+    const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || []; // Lịch sử tìm kiếm
+
+    const addSearchToHistory = (query, foundBooks) => {
+        searchHistory.push({ query, foundBooks });
+        localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
+        displaySearchHistory(); // Hiển thị lịch sử tìm kiếm sau khi thêm
+    };
+
+    const displaySearchHistory = () => {
+    chatHistory.innerHTML = ""; // Xóa lịch sử hiển thị trước đó
+    // Duyệt lịch sử từ mới nhất đến cũ nhất
+    searchHistory.reverse().forEach(entry => {
+        const historyElem = document.createElement("div");
+        historyElem.classList.add("search-history-item");
+        historyElem.innerHTML = `
+            <strong>Tìm kiếm:</strong> ${entry.query} <br>
+            ${entry.foundBooks.map(book => `
+                <div class="book-item">
+                    <img src="${book.cover}" alt="${book.name}" class="book-cover">
+                    <p><strong>${book.name}</strong></p>
+                </div>
+            `).join('')}
+        `;
+        chatHistory.appendChild(historyElem);
+    });
+};
+
+
+    const clearSearchHistory = () => {
+        if (confirm("Bạn có chắc chắn muốn xóa lịch sử tìm kiếm?")) {
+            searchHistory.length = 0; // Xóa lịch sử
+            localStorage.removeItem("searchHistory"); // Xóa khỏi localStorage
+            displaySearchHistory(); // Cập nhật hiển thị
+        }
+    };
+
+    const translate = (vi, en) => {
+        return currentLang === 'vi' ? vi : en;
+    };
+
+    const searchBooks = (query) => {
+        const keywords = query.toLowerCase().split(" ");
+        let primaryCriterion = "general"; // Tiêu chí tìm kiếm mặc định
+
+        // Kiểm tra các từ khóa để xác định tiêu chí ưu tiên
+        if (query.includes("tác giả") || query.includes("của người") || query.includes("người tên")) {
+            primaryCriterion = "author"; // Ưu tiên theo tác giả
+        } else if (query.includes("tên sách") || query.includes("sách tên")) {
+            primaryCriterion = "name"; // Ưu tiên theo tên sách
+        } else if (query.includes("nội dung") || query.includes("diễn biến") || query.includes("có nội dung")) {
+            primaryCriterion = "description"; // Ưu tiên theo mô tả
+        } else if (query.includes("được ưa thích") || query.includes("nổi bật") || query.includes("quan tâm") || query.includes("bán chạy nhất")) {
+            primaryCriterion = "popularity"; // Ưu tiên theo độ phổ biến
+        } else if (query.includes("thể loại") || query.includes("loại sách")) {
+            primaryCriterion = "category"; // Ưu tiên theo thể loại
+        }
+
+        let filteredBooks = [];
+        if (primaryCriterion === "author") {
+            // Tìm kiếm theo tác giả
+            filteredBooks = books.filter(book => 
+                keywords.some(keyword => book.author.toLowerCase().includes(keyword))
+            );
+        } else if (primaryCriterion === "name") {
+            // Tìm kiếm theo tên sách
+            filteredBooks = books.filter(book => 
+                keywords.some(keyword => book.name.toLowerCase().includes(keyword))
+            );
+        } else if (primaryCriterion === "description") {
+            // Tìm kiếm theo mô tả
+            filteredBooks = books.filter(book =>
+                keywords.some(keyword => book.description.toLowerCase().includes(keyword))
+            );
+        } else if (primaryCriterion === "popularity") {
+            // Sắp xếp theo độ phổ biến và lấy sách nổi bật nhất
+            filteredBooks = books.sort((a, b) => b.clicks - a.clicks).slice(0, 1);
+        } else if (primaryCriterion === "category") {
+            // Tìm kiếm theo thể loại
+            const categoryKeyword = keywords.find(keyword => keyword);
+            filteredBooks = books.filter(book =>
+                book.category.toLowerCase().includes(categoryKeyword)
+            );
+        } else {
+            // Tìm kiếm tổng quát
+            filteredBooks = books.filter(book =>
+                book.name.toLowerCase().includes(query) ||
+                book.author.toLowerCase().includes(query) ||
+                book.description.toLowerCase().includes(query) ||
+                book.category.toLowerCase().includes(query)
+            );
+        }
+
+        return filteredBooks;
+    };
+
+    const findSimilarBooks = (targetBook) => {
+        return books.filter(book => 
+            (book.author === targetBook.author || book.category === targetBook.category) && book.code !== targetBook.code
+        ).slice(0, 3);  // Trả về 3 sách tương tự
+    };
+
+    const displayBooks = (books) => {
+        bookResults.innerHTML = "";  // Xóa kết quả trước đó
+        if (books.length > 0) {
+            books.forEach(book => {
+                const bookDiv = document.createElement("div");
+                bookDiv.classList.add("book-item");
+                bookDiv.innerHTML = `
+                    <img src="${book.cover}" alt="${book.name}" class="book-cover">
+                    <p><strong>${book.name}</strong></p>
+                    <p>${book.author}</p>
+                    <p><strong>${translate('Thể loại', 'Category')}:</strong> ${book.category}</p>
+                `;
+                bookDiv.addEventListener("click", () => openBookModal(book)); // Thêm sự kiện click để mở modal
+                bookResults.appendChild(bookDiv);
+            });
+        } else {
+            bookResults.innerHTML = `<p>${translate('Không tìm thấy sách nào.', 'No books found.')}</p>`;
+        }
+    };
+
+    const displaySimilarBooksInModal = (books) => {
+        modalSimilarBooks.innerHTML = ""; // Xóa sách liên quan trước đó
+        books.forEach(book => {
+            const similarDiv = document.createElement("div");
+            similarDiv.classList.add("book-item");
+            similarDiv.innerHTML = `
+                <img src="${book.cover}" alt="${book.name}" class="book-cover">
+                <p><strong>${book.name}</strong></p>
+                <p>${book.author}</p>
+            `;
+            modalSimilarBooks.appendChild(similarDiv);
+        });
+    };
+
+    const openBookModal = (book) => {
+        modalBookTitle.innerText = book.name;
+        modalBookCover.src = book.cover;
+        modalBookAuthor.innerText = book.author;
+        modalBookCategory.innerText = book.category;
+        modalBookDescription.innerText = book.description;
+
+        const similarBooksList = findSimilarBooks(book);
+        displaySimilarBooksInModal(similarBooksList);
+
+        bookModal.style.display = "block"; // Hiển thị modal
+    };
+
+    closeModal.addEventListener("click", () => {
+        bookModal.style.display = "none"; // Đóng modal
+    });
+
+    window.addEventListener("click", (event) => {
+        if (event.target === bookModal) {
+            bookModal.style.display = "none"; // Đóng modal nếu nhấp bên ngoài
+        }
+    });
+
+    const handleUserInput = () => {
+        const query = userInput.value.trim().toLowerCase();
+        if (query) {
+            addSearchToHistory(query, searchBooks(query)); // Lưu lịch sử tìm kiếm
+            const foundBooks = searchBooks(query);
+
+            // Hiển thị sách tìm thấy
+            displayBooks(foundBooks);
+            userInput.value = ""; // Xóa ô nhập
+        }
+    };
+
+    sendBtn.addEventListener("click", handleUserInput);
+    userInput.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            handleUserInput();
+        }
+    });
+
+    clearChatBtn.addEventListener("click", clearSearchHistory); // Nút xóa lịch sử tìm kiếm
+
+    displaySearchHistory(); // Hiển thị lịch sử tìm kiếm khi tải trang
+});
+
+
+
+</script>
+
+</body>
+</html>
