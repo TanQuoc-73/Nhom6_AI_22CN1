@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const searchButton = document.getElementById("searchButton");
     const searchInput = document.getElementById("search");
 
-    let bookClickCount = {};
-    let bookClicks = {}; 
+    let bookClickCount = {}; 
+    let bookClicks = JSON.parse(localStorage.getItem("bookClicks")) || {}; // Khôi phục từ localStorage
 
     const loadBooks = () => {
         const books = JSON.parse(localStorage.getItem("books")) || [];
@@ -24,16 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p><strong>Thể loại:</strong> ${book.category}</p>
             `;
 
-            bookClickCount[book.code] = 0;
+            if (!bookClicks[book.code]) {
+                bookClicks[book.code] = 0;  // Nếu chưa có trong localStorage, đặt giá trị ban đầu là 0
+            }
 
             bookDiv.addEventListener("click", () => {
-                bookClickCount[book.code]++;
-                bookClicks[book.code] = bookClickCount[book.code];
+                bookClicks[book.code]++;
+                localStorage.setItem("bookClicks", JSON.stringify(bookClicks)); // Lưu vào localStorage
                 showBookDetails(book);
+                displayFeaturedBooks(); // Hiển thị lại danh sách sách nổi bật sau khi click vào sách
             });
 
             newBookList.appendChild(bookDiv);
         });
+
+        // Hiển thị sách nổi bật ngay sau khi tải sách
+        displayFeaturedBooks();
     };
 
     const showBookDetails = (book) => {
@@ -47,9 +53,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <p><strong>Mô tả:</strong> ${book.description}</p>
             <p><strong>Thể loại:</strong> ${book.category}</p>
             <p><strong>Ngày thêm:</strong> ${book.dateAdded}</p>
-            <h3>Sách gợi ý</h3>
+            <h3>Sách cùng thể loại</h3>
             <div class="suggestions" id="suggestions"></div>
-            <h3>Sách nổi bật</h3>
             <div class="interes_book" id="interes_book"></div>
         `;
         bookModal.style.display = "block";
@@ -75,9 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
             suggestionsDiv.appendChild(suggestionItem);
         });
 
-        // Hiển thị sách nổi bật
-        displayFeaturedBooks();
-
         const closeModal = document.querySelector('.close-modal');
         closeModal.addEventListener('click', () => {
             bookModal.style.display = "none";
@@ -88,15 +90,18 @@ document.addEventListener("DOMContentLoaded", () => {
         const similarBookDiv = document.getElementById("similarBookList");
         similarBookDiv.innerHTML = '';  // Xóa nội dung cũ trước khi thêm sách mới
     
+        const books = JSON.parse(localStorage.getItem("books")) || [];
+
+        // Kiểm tra nếu đã có lượt click và lấy thông tin các sách dựa vào số lượt click
         const sortedBooks = Object.keys(bookClicks)
             .map(code => {
-                const book = JSON.parse(localStorage.getItem("books")).find(b => b.code === code);
+                const book = books.find(b => b.code === code);
                 return { book, clicks: bookClicks[code] };
             })
             .filter(item => item.book)
             .sort((a, b) => b.clicks - a.clicks);
     
-        const topFeaturedBooks = sortedBooks.slice(0, 5);  // Hiển thị tối đa 5 sách nổi bật
+        const topFeaturedBooks = sortedBooks.slice(0, 10);  // Hiển thị tối đa 10 sách nổi bật
     
         topFeaturedBooks.forEach(({ book }) => {
             const bookItem = document.createElement("div");
@@ -115,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
             similarBookDiv.appendChild(bookItem);  // Thêm sách vào div similarBookList
         });
     };
+
     searchButton.addEventListener("click", () => {
         const query = searchInput.value.toLowerCase();
         const books = JSON.parse(localStorage.getItem("books")) || [];
@@ -201,12 +207,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const x = e.pageX - newBookList.offsetLeft;
         const walk = (x - startX) * 2;
         newBookList.scrollLeft = scrollLeft - walk;
-    });
-
-    // Cuộn bằng chuột
-    newBookList.addEventListener('wheel', (e) => {
-        e.preventDefault();
-        newBookList.scrollLeft += e.deltaY;
     });
 
     // Ngăn chặn việc kéo hình ảnh khi nhấn chuột vào hình ảnh sách

@@ -231,9 +231,7 @@ body{
 }
 
 
-.imgs{
-    
-}
+
 .imgs:hover{
     transform: scale(1.02);
     transition: 0.3s;
@@ -356,3 +354,147 @@ body{
     text-align: center; /* Căn giữa nội dung sách */
 }
 
+
+
+
+/* Định dạng cho danh sách sách theo hàng ngang */
+#newBookList {
+    display: flex; /* Sắp xếp các phần tử theo hàng ngang */
+    flex-wrap: nowrap; /* Không xuống dòng, nếu vượt quá sẽ cuộn */
+    overflow-x: auto; /* Tạo thanh cuộn ngang nếu vượt quá không gian */
+    gap: 10px; /* Khoảng cách giữa các sách */
+    padding: 10px; /* Đệm xung quanh danh sách */
+    margin-left: 1.1rem;
+    max-width: 95%;
+}
+
+/* Định dạng cho từng ô sách */
+#newBookList .book-item {
+    flex: 0 0 200px; /* Chiều rộng cố định cho mỗi sách (200px) */
+    height: 300px; /* Chiều cao cố định */
+    border: none; /* Đường viền xung quanh sách */
+    padding: 10px; /* Khoảng cách bên trong ô sách */
+    box-sizing: border-box; /* Đảm bảo padding và border không ảnh hưởng đến kích thước */
+    overflow: hidden; /* Ẩn nội dung vượt quá kích thước ô */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+/* Thiết kế thanh cuộn */
+#newBookList::-webkit-scrollbar {
+    height: 10px; /* Chiều cao thanh cuộn */
+    
+}
+
+#newBookList::-webkit-scrollbar-thumb {
+    background-color: #de9e80; /* Màu thanh cuộn */
+    border-radius: 10px;
+    
+}
+
+#newBookList::-webkit-scrollbar-track {
+    background-color: #fde2d6; /* Nền của thanh cuộn */
+}
+
+    
+
+    
+
+.book-item{
+    width: 10rem;
+    max-height: 18rem;
+    background-color: rgb(252, 208, 191);
+    padding: 1rem;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+    p{
+        color: rgb(127, 84, 59);
+    }
+    img{
+        margin-top: 1rem;
+    }
+    
+}
+
+.book-item:hover{
+    transform: scale(1.1);
+    transition: transform 0.3s ease;;
+    img{
+        transform: scale(1.06);
+        transition: transform 0.3s ease;
+    }
+}
+
+
+.suggestions {
+    display: flex;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    padding: 10px 0;
+}
+
+.suggestion-item {
+    margin-right: 10px;
+    cursor: pointer; /* Chỉ thị rằng đây là một phần tử có thể nhấp */
+}
+#newBookList {
+    display: flex;
+    overflow-x: auto; /* Cho phép cuộn ngang */
+    cursor: grab; /* Hiển thị biểu tượng tay khi kéo */
+}
+
+#newBookList.active {
+    cursor: grabbing; /* Hiển thị biểu tượng tay khi đang kéo */
+}
+
+/* Định dạng cho danh sách sách nổi bật */
+#similarBookList {
+    display: flex; /* Sắp xếp các phần tử theo hàng ngang */
+    flex-wrap: nowrap; /* Không xuống dòng, nếu vượt quá sẽ cuộn */
+    overflow-x: auto; /* Tạo thanh cuộn ngang nếu vượt quá không gian */
+    gap: 30px; /* Khoảng cách giữa các sách */
+    padding: 10px ; /* Đệm xung quanh danh sách */
+    margin-left: 1.1rem;
+    max-width: 95%;
+}
+
+/* Định dạng cho từng ô sách nổi bật */
+#similarBookList .featured-book-item {
+    flex: 0 0 200px; /* Chiều rộng cố định cho mỗi sách (200px) */
+    height: 230px; /* Chiều cao cố định */
+    border: none; /* Đường viền xung quanh sách */
+    padding: 10px; /* Khoảng cách bên trong ô sách */
+    box-sizing: border-box; /* Đảm bảo padding và border không ảnh hưởng đến kích thước */
+    overflow: hidden; /* Ẩn nội dung vượt quá kích thước ô */
+    text-align: center; /* Căn giữa nội dung */
+    background-color: rgb(252, 208, 191);
+    border-radius: 10px;
+}
+
+.featured-book-item img {
+    width: 100px; /* Chiều rộng bìa sách */
+    height: 150px; /* Chiều cao bìa sách */
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+    margin-bottom: 10px; /* Khoảng cách giữa bìa sách và tên sách */
+}
+
+.featured-book-item:hover {
+    transform: scale(1.1); /* Hiệu ứng phóng to khi hover */
+    transition: transform 0.3s ease; /* Hiệu ứng chuyển tiếp */
+}
+
+.featured-book-item p {
+    color: rgb(127, 84, 59); /* Màu chữ cho tên sách */
+}
+/* Thiết kế thanh cuộn cho danh sách sách nổi bật */
+#similarBookList::-webkit-scrollbar {
+    height: 10px; /* Chiều cao thanh cuộn */
+}
+
+#similarBookList::-webkit-scrollbar-thumb {
+    background-color: #de9e80; /* Màu thanh cuộn */
+    border-radius: 10px; /* Bo góc cho thanh cuộn */
+}
+
+#similarBookList::-webkit-scrollbar-track {
+    background-color: #fde2d6; /* Nền của thanh cuộn */
+}
