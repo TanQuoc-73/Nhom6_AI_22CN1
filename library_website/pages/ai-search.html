@@ -201,33 +201,33 @@
 </head>
 <body>
 
-<div class="container">
-    <div id="header">
-        <h1>Chat với Trí Tuệ Nhân Tạo - Tìm Sách</h1>
+    <div class="container">
+        <div id="header">
+            <h1>Tìm kiếm nâng cao</h1>
+        </div>
+        <div id="chatWindow" class="chat-window"></div>
+        <input type="text" id="userInput" placeholder="Nhập thông tin về sách...">
+        <button id="sendBtn">Gửi</button>
+        <button id="toggleLangBtn">English</button>
+        <button id="clearChatBtn">Xóa Lịch Sử</button>
+        <div id="bookResults" class="book-results"></div>
+        <div id="similarBooks" class="similar-books"></div>
+        <div id="chatHistory" class="chat-history"></div>
     </div>
-    <div id="chatWindow" class="chat-window"></div>
-    <input type="text" id="userInput" placeholder="Nhập tên sách, tác giả, mã sách, hoặc mô tả...">
-    <button id="sendBtn">Gửi</button>
-    <button id="clearChatBtn">Xóa Chat</button>
-    <button id="toggleLangBtn">English</button>
-    <div id="bookResults" class="book-results"></div>
-    <div id="similarBooks" class="similar-books"></div>
-    <div id="chatHistory" class="chat-history"></div>
-</div>
-<!-- Modal cho thông tin sách -->
-<div id="bookModal" class="modal">
-    <div class="modal-content">
-        <span class="close" id="closeModal">&times;</span>
-        <h2 id="modalBookTitle"></h2>
-        <img id="modalBookCover" src="" alt="Book Cover" />
-        <p><strong>Tác giả:</strong> <span id="modalBookAuthor"></span></p>
-        <p><strong>Thể loại:</strong> <span id="modalBookCategory"></span></p>
-        <p><strong>Mô tả:</strong> <span id="modalBookDescription"></span></p>
-        <h3>Sách liên quan:</h3>
-        <div id="modalSimilarBooks"></div>
+    <!-- Modal cho thông tin sách -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2 id="modalBookTitle"></h2>
+            <img id="modalBookCover" src="" alt="Book Cover" />
+            <p><strong>Tác giả:</strong> <span id="modalBookAuthor"></span></p>
+            <p><strong>Thể loại:</strong> <span id="modalBookCategory"></span></p>
+            <p><strong>Mô tả:</strong> <span id="modalBookDescription"></span></p>
+            <h3>Sách liên quan:</h3>
+            <div id="modalSimilarBooks"></div>
+        </div>
     </div>
-</div>
-<button id="clearChatBtn">Xóa Lịch Sử</button>
+
 
 
 
