@@ -1,15 +1,22 @@
-        body {
+        .container {
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
 }
-
+.catalog{
+    h1{
+        color: rgb(241, 235, 235);
+    }
+}
 #header {
-    background-color: #4CAF50;
-    color: white;
+    background-color: #ae7e66;
+    h1{
+        color: rgb(255, 253, 253);
+    }
     padding: 10px 0;
     text-align: center;
+    border-radius: 5px;
 }
 
 .chat-window {
@@ -84,7 +91,7 @@
         }
         .bot-message {
             text-align: left;
-            color: #007bff;
+            color: #5b493f;
         }
         #userInput {
             width: calc(100% - 100px);
@@ -95,14 +102,14 @@
         }
         #sendBtn, #toggleLangBtn {
             padding: 10px 20px;
-            background-color: #28a745;
+            background-color: #a0806d;
             color: #fff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         #sendBtn:hover, #toggleLangBtn:hover {
-            background-color: #218838;
+            background-color: #a0806d;
         }
         #toggleLangBtn {
             float: right;
@@ -113,9 +120,10 @@
         }
         .book-item {
             display: inline-block;
-            width: 150px;
+            width: 500px;
             text-align: center;
             margin: 10px;
+            margin-left: 3rem;
             padding: 10px;
             background-color: #f8f8f8;
             border: 1px solid #ddd;

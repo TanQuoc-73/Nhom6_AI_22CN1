@@ -89,6 +89,12 @@ body{
         background-color: rgb(255, 255, 255);
         color: rgb(207, 128, 96);
     }
+
+}
+
+#searchButton{
+    border: none;
+    margin-left: -17px;
 }
 #rightop{
     font-size: 2.5rem;

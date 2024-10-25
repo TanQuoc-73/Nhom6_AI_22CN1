@@ -1,6 +1,15 @@
 .category-container {
     font-family: Arial, sans-serif;
             padding: 20px;
+            color: rgb(152, 102, 80);
+            margin-left: 2rem;
+            height: 500px;
+            
+            
+        }
+        .colorbar{
+            background-color: rgb(161, 100, 75);
+            height: 2rem;
         }
         .category-list {
             margin-bottom: 20px;
@@ -10,17 +19,19 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            width: 150px;
+            padding: 10px 1rem;
+            max-width: 150px;
             margin: 5px 10px;
             background-color: #fdd4c1;
             cursor: pointer;
+            border-radius: 10px;
+            color: #6a4c43;
         }
         .category-item:hover {
             background-color: #ddd;
         }
         .category-item.active {
-            background-color: #007bff;
+            background-color: #c18573;
             color: white;
         }
         .book-list {

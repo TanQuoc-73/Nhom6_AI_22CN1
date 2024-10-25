@@ -1,13 +1,108 @@
 <!DOCTYPE html>
-<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat với Trí Tuệ Nhân Tạo - Tìm Sách</title>
+    <title>Thu Vien</title>
+    <link rel="stylesheet" href="/library_website/css/main.css">
+    <link rel="stylesheet" href="/library_website/css/base.css">
+    <link rel="stylesheet" href="/library_website/css/modal.css">
+    <link rel="stylesheet" href="/library_website/css/search.css">
+    <link rel="stylesheet" href="/library_website/css/modal_inforbook.css">
+    <link rel="stylesheet" href="/library_website/assets/fonts/fontawesome-free-6.6.0-web/css/all.min.css">
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="">
+    <!-- Thuật toán tìm kiếm tương tự -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.basic.min.js"></script>
     <link rel="stylesheet" href="/library_website/css/ai-search.css">   
 </head>
 <body>
+    <div class="head-line">
+        <div id="hotline">
+            
+            <h1><i class="fa-solid fa-phone"></i>Hotline</h1>
+            <h2>0823415747</h2>
 
+        </div>
+
+        <div id="term">
+            <div class="term1">
+                <a href="#">Điều khoản</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">Liên hệ</a>
+            </div>
+            |
+            <div class="term1">
+                <a href="#">QR</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="header">
+        <div id="logo">
+            <h1>
+                <i class="fa-solid fa-book"></i>
+                THUVIENHAU
+            </h1>
+            
+        </div>
+
+        
+        
+       
+        <div id="rightop">
+            <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+    </div>
+    
+    
+    
+    <div class="bar" id="option">
+        
+            <div class="catalog">
+                <h1>
+                    <i class="fa-solid fa-bars"></i>
+                    Danh mục sản phẩm
+                </h1>
+            </div>
+        
+        
+        <div class="choice">
+            <a href="/library_website/pages/index.html" class="c1">Trang chủ</a>
+            <a href="ai-search.html" class="c2">Tìm kiếm nâng cao</a>
+            <a href="#" class="c3">Tin tức</a>
+            <a href="#" class="c4">Giới thiệu</a>
+            <a href="#" class="c5">Liên hệ</a>
+        </div>
+        
+    </div>
+        <div class="danhmuc" id="danhMuc"></div>
+
+
+        <!-- Modal hiển thị thể loại sách -->
+    <div class="modaldanhmuc">
+        <div class="modal1" id="modalTheLoai">
+            <ul>
+                <li>
+                    <a href="/library_website/pages/category.html">Thể loại</a>
+                    <i class="fa-solid fa-bars"></i>
+                </li>
+                <li>Sách thiếu nhi</li>
+                <li>Sách văn học</li>
+                <li>Truyện tranh</li>
+            </ul>
+            <script src="/library_website/js/modalTheLoai.js"></script>
+        </div>
+    </div>
+            
+    
+    
+   <div class="content">
+    <div class="new">
+        <img src="/library_website/assets/imgs/011f185fac9ca611013ee04daa8e95.jpg" alt="main_img">
+    </div>
+    <div class="colorbar"></div>
     <div class="container">
         <div id="header">
             <h1>Tìm kiếm nâng cao</h1>
@@ -15,7 +110,6 @@
         <div id="chatWindow" class="chat-window"></div>
         <input type="text" id="userInput" placeholder="Nhập thông tin về sách...">
         <button id="sendBtn">Gửi</button>
-        <button id="toggleLangBtn">English</button>
         <button id="clearChatBtn">Xóa Lịch Sử</button>
         <div id="bookResults" class="book-results"></div>
         <div id="similarBooks" class="similar-books"></div>
@@ -34,6 +128,16 @@
             <div id="modalSimilarBooks"></div>
         </div>
     </div>
+   </div>
+   <div class="footer">
+    <div id="footer1">
+        <a href="#" class="c1">Giới thiệu</a>
+        <a href="#" class="c2">Liên hệ</a>
+    </div>
+    <div id="footer2"></div>
+    <div id="footer3"></div>
+    <div id="footer4"></div>
+</div> 
 
 <script src="/library_website/js/ai-search.js"></script>
 </body>
