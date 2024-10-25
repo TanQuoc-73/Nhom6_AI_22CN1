@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat với chúng tôi qua Messenger</title>
+</head>
+<body>
+    <h1>Chào mừng bạn đến với trang web của chúng tôi!</h1>
+    <p>Nếu bạn có câu hỏi, vui lòng liên hệ với chúng tôi qua chat Messenger.</p>
+
+    <!-- Vị trí để Messenger Plugin xuất hiện -->
+    <div id="fb-root"></div>
+    <div id="fb-customer-chat" class="fb-customerchat"></div>
+
+    <!-- Facebook SDK code -->
+    <script>
+        window.fbAsyncInit = function() {
+            FB.init({
+                xfbml            : true,
+                version          : 'v13.0'
+            });
+        };
+
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- Cấu hình Facebook Messenger Plugin -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var chatbox = document.getElementById('fb-customer-chat');
+            chatbox.setAttribute("page_id", "YOUR_PAGE_ID");  // Thay YOUR_PAGE_ID bằng ID trang Facebook của bạn
+            chatbox.setAttribute("attribution", "biz_inbox");
+        });
+    </script>
+</body>
+</html>

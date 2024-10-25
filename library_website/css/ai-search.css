@@ -24,13 +24,12 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
-    max-height: 200px; /* Giới hạn chiều cao cho cửa sổ chat */
-    overflow-x: auto; /* Thay đổi thanh cuộn thành ngang */
-    white-space: nowrap; /* Đảm bảo văn bản không bị xuống dòng */
+    max-height: 50px; /* Giới hạn chiều cao cho cửa sổ chat */
+   
 }
 
 .chat-history {
-    background-color: white;
+    background-color: rgb(248, 230, 222);
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 10px;
@@ -51,7 +50,7 @@
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
-    background-color: #fff;
+    background-color: #fee8e8;
 }
 
 .book-item img {
@@ -175,11 +174,19 @@
 
 /* Nội dung modal */
 .modal-content {
-    background-color: #fefefe;
+    background-color: #fbe1d8;
     margin: 15% auto; /* Đặt giữa */
     padding: 20px;
     border: 1px solid #888;
-    width: 80%; /* Chiều rộng của modal */
+    width: 60%; /* Chiều rộng của modal */
+
+    border-radius: 10px;
+    color: rgb(104, 80, 73);
+    padding: 2rem;
+    h3{
+        margin-top: 3rem;
+       
+    }
 }
 
 /* Nút đóng modal */
@@ -197,3 +204,19 @@
     cursor: pointer;
 }
 
+#clearChatBtn{
+    padding : 10px;
+    margin : 50px 0 -10px 780px;
+    background-color: #f1cbbc;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+}
+#clearChatBtn:hover{
+    transform: 0.2s ease-in-out;
+    transition: 0.2s ease-in-out;
+    background-color: #f1cbbc;
+    color: #ff0606;
+    box-shadow: 0 0 10px #f1cbbc;
+}

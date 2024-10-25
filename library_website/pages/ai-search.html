@@ -110,9 +110,10 @@
         <div id="chatWindow" class="chat-window"></div>
         <input type="text" id="userInput" placeholder="Nhập thông tin về sách...">
         <button id="sendBtn">Gửi</button>
-        <button id="clearChatBtn">Xóa Lịch Sử</button>
         <div id="bookResults" class="book-results"></div>
         <div id="similarBooks" class="similar-books"></div>
+                <button id="clearChatBtn"><i class="fa-solid fa-triangle-exclamation"></i>  Xóa Lịch Sử</button>
+
         <div id="chatHistory" class="chat-history"></div>
     </div>
     <!-- Modal cho thông tin sách -->
@@ -130,13 +131,34 @@
     </div>
    </div>
    <div class="footer">
-    <div id="footer1">
-        <a href="#" class="c1">Giới thiệu</a>
-        <a href="#" class="c2">Liên hệ</a>
+    <div class="footer-container">
+        <div class="footer-section">
+            <img src="/library_website/assets/imgs/logoHAU.png" width="100px" class="footer-logo">
+        </div>
+        <div class="footer-section">
+            <h3>Thông tin liên hệ</h3>
+            <p>Địa chỉ:Km 10, Đường Nguyễn Trãi, Quận Thanh Xuân , TP Hà Nội</p>
+            <p>Điện thoại: 024 3854 1616</p>
+            <p>Email: thu-vien@example.com</p>
+        </div>
+        <div class="footer-section">
+            <h3>Giờ mở cửa</h3>
+            <p>Thứ 2 - Thứ 6: 8:00 - 18:00</p>
+            <p>Thứ 7: 9:00 - 17:00</p>
+            <p>Chủ Nhật: Đóng cửa</p>
+        </div>
+        <div class="footer-section">
+            <h3>Kết nối với chúng tôi</h3>
+            <div class="social-links">
+                <a href="https://www.facebook.com" target="_blank">Facebook</a>
+                <a href="https://www.twitter.com" target="_blank">Twitter</a>
+                <a href="https://www.instagram.com" target="_blank">Instagram</a>
+            </div>
+        </div>
     </div>
-    <div id="footer2"></div>
-    <div id="footer3"></div>
-    <div id="footer4"></div>
+    <div class="footer-bottom">
+        <p>&copy; 2024 Thư viện trực tuyến. Mọi quyền được bảo lưu.</p>
+    </div>
 </div> 
 
 <script src="/library_website/js/ai-search.js"></script>

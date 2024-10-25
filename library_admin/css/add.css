@@ -1,26 +1,33 @@
-
+/* Định dạng cho hình ảnh bìa sách */
 #bookList img {
     width: 50px;
     height: 50px;
     object-fit: cover;
 }
+
+/* Định dạng cho các ô dữ liệu trong bảng */
 #bookList td {
     color: rgb(94, 74, 67);
     width: 100px;
-    button{
-        color: rgb(94, 74, 67);
-        background-color: rgb(229, 175, 148);
-        padding: 7px;
-        border-radius: 5px;
-        border: none;
-        cursor: pointer;
-    }
 }
+
+/* Định dạng cho các nút trong bảng */
+#bookList td button {
+    color: rgb(94, 74, 67);
+    background-color: rgb(229, 175, 148);
+    padding: 7px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Thiết lập cho khu vực nội dung chính */
 .content {
     padding: 20px;
     background-color: #f9f9f9;
 }
 
+/* Định dạng cho các phần tử trong form */
 form input, form textarea, form button {
     display: block;
     margin: 10px 0;
@@ -29,17 +36,17 @@ form input, form textarea, form button {
     max-width: 400px;
 }
 
+/* Thiết lập cho bảng danh sách sách */
 #bookList {
     width: 100%;
-    height: 500px;
     border-collapse: collapse;
 }
 
+/* Thiết lập cho các ô và tiêu đề trong bảng */
 #bookList th, #bookList td {
-    padding: 10px; /* Thêm khoảng cách cho các ô */
-    text-align: left; /* Căn trái văn bản */
-    border: 1px solid #ddd; /* Đường biên cho các ô */
-
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
 }
 
 #bookList th {
@@ -47,12 +54,43 @@ form input, form textarea, form button {
     text-align: left;
 }
 
+/* Khu vực tìm kiếm */
 .search-section {
     margin: 20px 0;
 }
 
-#bookForm{
+/* Giới hạn độ rộng của form */
+#bookForm {
     width: 300px;
 }
 
+/* Định dạng để cắt ngắn văn bản trong các ô dài */
+.truncate {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
 
+/* Căn chỉnh chiều rộng riêng cho từng loại cột */
+.name {
+    max-width: 200px; /* Độ rộng tối đa cho tên sách */
+}
+
+.author {
+    max-width: 150px; /* Độ rộng tối đa cho tên tác giả */
+}
+
+.description {
+    max-width: 250px; /* Độ rộng tối đa cho mô tả */
+}
+
+/* Giới hạn chiều cao và thêm thanh cuộn cho danh sách sách */
+.bookList-container {
+    margin-top: 20px; /* Khoảng cách phía trên */
+}
+
+.bookList-scroll {
+    max-height: 500px; /* Giới hạn chiều cao tối đa */
+    overflow-y: auto; /* Hiển thị thanh cuộn dọc */
+    border: 1px solid #ddd; /* Đường biên cho div */
+}

@@ -13,12 +13,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = bookList.insertRow();
             row.innerHTML = `
                 <td><img src="${book.cover}" alt="Book Cover" style="width: 50px; height: 50px;"></td>
-                <td>${book.name}</td>
-                <td>${book.author}</td>
+                <td class="truncate name">${book.name}</td>
+                <td class="truncate author">${book.author}</td>
                 <td>${book.code}</td>
                 <td>${book.category}</td>
                 <td>${book.quantity}</td>
-                <td>${book.description}</td>
+                <td class="truncate description">${book.description}</td>
                 <td>${book.dateAdded}</td>
                 <td>
                     <button onclick="editBook(${index})">Sửa</button>
@@ -123,12 +123,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const row = bookList.insertRow();
             row.innerHTML = `
                 <td><img src="${book.cover}" alt="Book Cover" style="width: 50px; height: 50px;"></td>
-                <td>${book.name}</td>
-                <td>${book.author}</td>
+                <td class="truncate name">${book.name}</td>
+                <td class="truncate author">${book.author}</td>
                 <td>${book.code}</td>
                 <td>${book.category}</td>
                 <td>${book.quantity}</td>
-                <td>${book.description}</td>
+                <td class="truncate description">${book.description}</td>
                 <td>${book.dateAdded}</td>
                 <td>
                     <button onclick="editBook(${index})">Sửa</button>
