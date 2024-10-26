@@ -15,43 +15,70 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalBookCategory = document.getElementById("modalBookCategory");
     const modalBookDescription = document.getElementById("modalBookDescription");
     const modalSimilarBooks = document.getElementById("modalSimilarBooks");
-    const toggleLangBtn = document.getElementById("toggleLangBtn");
 
-    let currentLang = 'vi'; // Ngôn ngữ mặc định là tiếng Việt
-    const books = JSON.parse(localStorage.getItem("books")) || []; // Dữ liệu sách từ localStorage
-    const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || []; // Lịch sử tìm kiếm
+    let currentLang = 'vi';
+    const books = JSON.parse(localStorage.getItem("books")) || [];
+    const searchHistory = JSON.parse(localStorage.getItem("searchHistory")) || [];
+
+    const synonyms = {
+        "tác giả": ["người viết", "nhà văn", "author"],
+        "nổi bật": ["được ưa thích", "quan tâm", "phổ biến", "bán chạy nhất", "top"],
+        "nội dung": ["diễn biến", "mô tả", "câu chuyện", "cốt truyện", "plot"],
+        "thể loại": ["loại sách", "category", "genre"],
+        "sách": ["book", "ấn phẩm"]
+    };
+
+    const expandKeywords = (keywords) => {
+        const expanded = new Set();
+        keywords.forEach(keyword => {
+            expanded.add(keyword.toLowerCase()); // Chuyển tất cả từ khóa thành chữ thường
+            if (synonyms[keyword]) {
+                synonyms[keyword].forEach(syn => expanded.add(syn.toLowerCase())); // Chuyển từ đồng nghĩa thành chữ thường
+            }
+        });
+        return Array.from(expanded);
+    };
+
+    const countKeywordMatches = (text, keywords) => {
+        let count = 0;
+        const lowercaseText = text.toLowerCase(); // Chuyển text thành chữ thường
+        keywords.forEach(keyword => {
+            const regex = new RegExp(`\\b${keyword}\\b`, "gi");
+            const matches = lowercaseText.match(regex);
+            count += matches ? matches.length : 0;
+        });
+        return count;
+    };
 
     const addSearchToHistory = (query, foundBooks) => {
         searchHistory.push({ query, foundBooks });
         localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-        displaySearchHistory(); // Hiển thị lịch sử tìm kiếm sau khi thêm
+        displaySearchHistory();
     };
 
     const displaySearchHistory = () => {
-    chatHistory.innerHTML = ""; // Xóa lịch sử hiển thị trước đó
-    // Duyệt lịch sử từ mới nhất đến cũ nhất
-    searchHistory.reverse().forEach(entry => {
-        const historyElem = document.createElement("div");
-        historyElem.classList.add("search-history-item");
-        historyElem.innerHTML = `
-            <strong>Tìm kiếm:</strong> ${entry.query} <br>
-            ${entry.foundBooks.map(book => `
-                <div class="book-item">
-                    <img src="${book.cover}" alt="${book.name}" class="book-cover">
-                    <p><strong>${book.name}</strong></p>
-                </div>
-            `).join('')}
-        `;
-        chatHistory.appendChild(historyElem);
-    });
-};
-
+        chatHistory.innerHTML = "";
+        searchHistory.slice().reverse().forEach(entry => {
+            const historyElem = document.createElement("div");
+            historyElem.classList.add("search-history-item");
+            historyElem.innerHTML = `
+                <strong>Tìm kiếm:</strong> ${entry.query} <br>
+                ${entry.foundBooks.map(book => `
+                    <div class="book-item">
+                        <img src="${book.cover}" alt="${book.name}" class="book-cover">
+                        <p><strong>${book.name}</strong></p>
+                    </div>
+                `).join('')}
+            `;
+            chatHistory.appendChild(historyElem);
+        });
+    };
 
     const clearSearchHistory = () => {
         if (confirm("Bạn có chắc chắn muốn xóa lịch sử tìm kiếm?")) {
-            searchHistory.length = 0; // Xóa lịch sử
-            localStorage.removeItem("searchHistory"); // Xóa khỏi localStorage
-            displaySearchHistory(); // Cập nhật hiển thị
+            searchHistory.length = 0;
+            localStorage.removeItem("searchHistory");
+            displaySearchHistory();
         }
     };
 
@@ -60,68 +87,61 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const searchBooks = (query) => {
-        const keywords = query.toLowerCase().split(" ");
-        let primaryCriterion = "general"; // Tiêu chí tìm kiếm mặc định
+        const keywords = expandKeywords(query.toLowerCase().split(" ")); // Chuyển query thành chữ thường
+        let primaryCriterion = "general";
 
-        // Kiểm tra các từ khóa để xác định tiêu chí ưu tiên
         if (query.includes("tác giả") || query.includes("của người") || query.includes("người tên")) {
-            primaryCriterion = "author"; // Ưu tiên theo tác giả
+            primaryCriterion = "author";
         } else if (query.includes("tên sách") || query.includes("sách tên")) {
-            primaryCriterion = "name"; // Ưu tiên theo tên sách
+            primaryCriterion = "name";
         } else if (query.includes("nội dung") || query.includes("diễn biến") || query.includes("có nội dung")) {
-            primaryCriterion = "description"; // Ưu tiên theo mô tả
+            primaryCriterion = "description";
         } else if (query.includes("được ưa thích") || query.includes("nổi bật") || query.includes("quan tâm") || query.includes("bán chạy nhất")) {
-            primaryCriterion = "popularity"; // Ưu tiên theo độ phổ biến
+            primaryCriterion = "popularity";
         } else if (query.includes("thể loại") || query.includes("loại sách")) {
-            primaryCriterion = "category"; // Ưu tiên theo thể loại
+            primaryCriterion = "category";
         }
 
         let filteredBooks = [];
         if (primaryCriterion === "author") {
-            // Tìm kiếm theo tác giả
-            filteredBooks = books.filter(book => 
-                keywords.some(keyword => book.author.toLowerCase().includes(keyword))
+            filteredBooks = books.filter(book =>
+                keywords.some(keyword => book.author.toLowerCase().includes(keyword)) // So sánh với chữ thường
             );
         } else if (primaryCriterion === "name") {
-            // Tìm kiếm theo tên sách
-            filteredBooks = books.filter(book => 
-                keywords.some(keyword => book.name.toLowerCase().includes(keyword))
+            filteredBooks = books.filter(book =>
+                keywords.some(keyword => book.name.toLowerCase().includes(keyword)) // So sánh với chữ thường
             );
         } else if (primaryCriterion === "description") {
-            // Tìm kiếm theo mô tả
             filteredBooks = books.filter(book =>
-                keywords.some(keyword => book.description.toLowerCase().includes(keyword))
-            );
+                keywords.some(keyword => book.description.toLowerCase().includes(keyword)) // So sánh với chữ thường
+            ).sort((a, b) => countKeywordMatches(b.description, keywords) - countKeywordMatches(a.description, keywords));
         } else if (primaryCriterion === "popularity") {
-            // Sắp xếp theo độ phổ biến và lấy sách nổi bật nhất
             filteredBooks = books.sort((a, b) => b.clicks - a.clicks).slice(0, 1);
         } else if (primaryCriterion === "category") {
-            // Tìm kiếm theo thể loại
             const categoryKeyword = keywords.find(keyword => keyword);
             filteredBooks = books.filter(book =>
-                book.category.toLowerCase().includes(categoryKeyword)
+                book.category.toLowerCase().includes(categoryKeyword) // So sánh với chữ thường
             );
         } else {
-            // Tìm kiếm tổng quát
             filteredBooks = books.filter(book =>
-                book.name.toLowerCase().includes(query) ||
-                book.author.toLowerCase().includes(query) ||
-                book.description.toLowerCase().includes(query) ||
-                book.category.toLowerCase().includes(query)
-            );
+                book.name.toLowerCase().includes(query.toLowerCase()) || // So sánh với chữ thường
+                book.author.toLowerCase().includes(query.toLowerCase()) ||
+                book.description.toLowerCase().includes(query.toLowerCase()) ||
+                book.category.toLowerCase().includes(query.toLowerCase())
+            ).sort((a, b) => countKeywordMatches(b.description, keywords) - countKeywordMatches(a.description, keywords));
         }
 
         return filteredBooks;
     };
 
     const findSimilarBooks = (targetBook) => {
-        return books.filter(book => 
+        return books.filter(book =>
             (book.author === targetBook.author || book.category === targetBook.category) && book.code !== targetBook.code
-        ).slice(0, 3);  // Trả về 3 sách tương tự
+        ).slice(0, 3);
     };
 
     const displayBooks = (books) => {
-        bookResults.innerHTML = "";  // Xóa kết quả trước đó
+        bookResults.innerHTML = "";
         if (books.length > 0) {
             books.forEach(book => {
                 const bookDiv = document.createElement("div");
@@ -132,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>${book.author}</p>
                     <p><strong>${translate('Thể loại', 'Category')}:</strong> ${book.category}</p>
                 `;
-                bookDiv.addEventListener("click", () => openBookModal(book)); // Thêm sự kiện click để mở modal
+                bookDiv.addEventListener("click", () => openBookModal(book));
                 bookResults.appendChild(bookDiv);
             });
         } else {
@@ -141,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const displaySimilarBooksInModal = (books) => {
-        modalSimilarBooks.innerHTML = ""; // Xóa sách liên quan trước đó
+        modalSimilarBooks.innerHTML = "";
         books.forEach(book => {
             const similarDiv = document.createElement("div");
             similarDiv.classList.add("book-item");
@@ -164,28 +184,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const similarBooksList = findSimilarBooks(book);
         displaySimilarBooksInModal(similarBooksList);
 
-        bookModal.style.display = "block"; // Hiển thị modal
+        bookModal.style.display = "block";
     };
 
     closeModal.addEventListener("click", () => {
-        bookModal.style.display = "none"; // Đóng modal
+        bookModal.style.display = "none";
     });
 
     window.addEventListener("click", (event) => {
         if (event.target === bookModal) {
-            bookModal.style.display = "none"; // Đóng modal nếu nhấp bên ngoài
+            bookModal.style.display = "none";
         }
     });
 
     const handleUserInput = () => {
         const query = userInput.value.trim().toLowerCase();
         if (query) {
-            addSearchToHistory(query, searchBooks(query)); // Lưu lịch sử tìm kiếm
             const foundBooks = searchBooks(query);
-
-            // Hiển thị sách tìm thấy
+            addSearchToHistory(query, foundBooks);
             displayBooks(foundBooks);
-            userInput.value = ""; // Xóa ô nhập
+            userInput.value = "";
         }
     };
 
@@ -196,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    clearChatBtn.addEventListener("click", clearSearchHistory); // Nút xóa lịch sử tìm kiếm
+    clearChatBtn.addEventListener("click", clearSearchHistory);
 
-    displaySearchHistory(); // Hiển thị lịch sử tìm kiếm khi tải trang
+    displaySearchHistory();
 });
